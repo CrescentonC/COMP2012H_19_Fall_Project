@@ -9,6 +9,7 @@ class Block : public QLabel
 
 public:
     Block();
+    virtual int run();
 };
 
 #endif // BLOCK_H

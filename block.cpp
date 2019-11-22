@@ -4,3 +4,8 @@ Block::Block()
 {
 
 }
+
+int Block::run()
+{
+    return 0;
+}
