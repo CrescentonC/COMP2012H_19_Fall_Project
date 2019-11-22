@@ -73,7 +73,7 @@
         <x>0</x>
         <y>0</y>
         <width>201</width>
-        <height>551</height>
+        <height>391</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
