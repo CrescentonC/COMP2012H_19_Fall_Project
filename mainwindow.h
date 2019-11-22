@@ -3,6 +3,7 @@
 
 #include "runwindow.h"
 #include <QMainWindow>
+#include "block.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +21,8 @@ public:
 
 private slots:
     void on_runButton_clicked();
+    void on_clearButton_clicked();
+    void on_saveButton_clicked();
     void when_runWindow_closed();
 
 private:

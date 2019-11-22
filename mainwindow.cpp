@@ -23,6 +23,16 @@ void MainWindow::on_runButton_clicked()
     runWindow->show();
 }
 
+void MainWindow::on_clearButton_clicked()
+{
+    // TODO
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    // TODO
+}
+
 void MainWindow::when_runWindow_closed()
 {
     this->setEnabled(true);

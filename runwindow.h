@@ -22,6 +22,8 @@ private:
 
 private slots:
     void on_closeButton_clicked();
+    void on_stepButton_clicked();
+    void on_runButton_clicked();
     virtual void closeEvent(QCloseEvent *event) override;
 
 signals:

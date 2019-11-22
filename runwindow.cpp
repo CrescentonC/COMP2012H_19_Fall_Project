@@ -26,6 +26,16 @@ void RunWindow::on_closeButton_clicked()
     this->close();
 }
 
+void RunWindow::on_stepButton_clicked()
+{
+    // TODO
+}
+
+void RunWindow::on_runButton_clicked()
+{
+    // TODO
+}
+
 void RunWindow::closeEvent(QCloseEvent *event)
 {
     QMainWindow::closeEvent(event);
