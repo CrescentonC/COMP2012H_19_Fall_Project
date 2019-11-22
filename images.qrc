@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/forButton">
+        <file>image/run.png</file>
+        <file>image/step.png</file>
+        <file>image/cross.png</file>
+        <file>image/step2.png</file>
+    </qresource>
+</RCC>
