@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QScrollArea" name="scrollArea">
+     <widget class="QScrollArea" name="blockChoice_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>6</horstretch>
@@ -26,7 +26,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
+      <widget class="QWidget" name="blockChoiceArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -136,7 +136,7 @@
      </widget>
     </item>
     <item row="0" column="1" rowspan="3">
-     <widget class="QScrollArea" name="scrollArea_4">
+     <widget class="QScrollArea" name="canvas_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>24</horstretch>
@@ -146,7 +146,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_4">
+      <widget class="QWidget" name="canvasArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -165,7 +165,7 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QScrollArea" name="scrollArea_3">
+     <widget class="QScrollArea" name="buttons_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>6</horstretch>
@@ -181,7 +181,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_3">
+      <widget class="QWidget" name="buttonArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -277,7 +277,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QScrollArea" name="scrollArea_2">
+     <widget class="QScrollArea" name="showDefined_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>6</horstretch>
@@ -287,7 +287,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+      <widget class="QWidget" name="showDefinedArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -314,18 +314,18 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_2"/>
-    <addaction name="actionLoad_2"/>
+    <addaction name="actionNew"/>
+    <addaction name="actionLoad"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionNew_2">
+  <action name="actionNew">
    <property name="text">
     <string>New</string>
    </property>
   </action>
-  <action name="actionLoad_2">
+  <action name="actionLoad">
    <property name="text">
     <string>Load</string>
    </property>
