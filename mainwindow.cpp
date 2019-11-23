@@ -36,5 +36,4 @@ void MainWindow::on_saveButton_clicked()
 void MainWindow::when_runWindow_closed()
 {
     this->setEnabled(true);
-    ui->runButton->setEnabled(true);
 }

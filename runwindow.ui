@@ -181,7 +181,7 @@
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QScrollArea" name="dataShow_area">
+     <widget class="QScrollArea" name="showData_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>8</horstretch>
@@ -191,7 +191,7 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="dataShowArea_content">
+      <widget class="QWidget" name="showDataArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -199,6 +199,12 @@
          <width>293</width>
          <height>668</height>
         </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>293</width>
+         <height>668</height>
+        </size>
        </property>
       </widget>
      </widget>
