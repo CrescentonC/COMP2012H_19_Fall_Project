@@ -1,8 +1,8 @@
 #include "block.h"
 
-Block::Block() = default;
+Block::Block(QWidget *parent): QLabel {parent} {}
 
-Block::Block(Block *const &p, Block *const &n): prev {p}, next {n} {}
+Block::Block(Block *const &p, Block *const &n, QWidget *pa): QLabel {pa}, prev {p}, next {n} {}
 
 int Block::run()
 {

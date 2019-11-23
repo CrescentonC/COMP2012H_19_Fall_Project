@@ -8,8 +8,8 @@ class Block : public QLabel
     Q_OBJECT
 
 public:
-    Block();
-    Block(Block *const &p, Block *const &n);
+    Block(QWidget *parent = nullptr);
+    Block(Block *const &p, Block *const &n, QWidget *pa = nullptr);
     virtual int run() = 0;
     Block const *get_prev() const
     {
