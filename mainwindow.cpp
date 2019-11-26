@@ -40,5 +40,5 @@ void MainWindow::when_runWindow_closed()
 
 void MainWindow::on_ifButton_clicked()
 {
-    Block* b = new Block(nullptr,nullptr,ui->canvas_area);
+    Block* b = new Block(nullptr,nullptr,ui->canvasArea_content);
 }
