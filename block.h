@@ -1,7 +1,11 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 #include <QLabel>
-
+#include <QEvent>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QDebug>
+#include <QMessageBox>
 
 class Block : public QLabel
 {
@@ -10,7 +14,8 @@ class Block : public QLabel
 public:
     Block(QWidget *parent = nullptr);
     Block(Block *const &p, Block *const &n, QWidget *pa = nullptr);
-    virtual int run() = 0;
+    virtual int run();
+
     Block const *get_prev() const
     {
         return prev;
@@ -27,6 +32,13 @@ public:
     {
         next = n;
     }
+
+protected slots:
+    // detailed info comment at cpp
+    bool eventFilter(QObject *, QEvent *event) override;
+    void ShowContextMenu(const QPoint& pos);
+    virtual void showDetails();
+    void deleteBlock();
 
 private:
     Block *prev {nullptr};

@@ -37,3 +37,8 @@ void MainWindow::when_runWindow_closed()
 {
     this->setEnabled(true);
 }
+
+void MainWindow::on_ifButton_clicked()
+{
+    Block* b = new Block(nullptr,nullptr,ui->canvas_area);
+}

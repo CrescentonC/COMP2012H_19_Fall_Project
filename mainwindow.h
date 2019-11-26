@@ -24,6 +24,7 @@ private slots:
     void on_clearButton_clicked();
     void on_saveButton_clicked();
     void when_runWindow_closed();
+    void on_ifButton_clicked();
 
 private:
     Ui::MainWindow *ui;

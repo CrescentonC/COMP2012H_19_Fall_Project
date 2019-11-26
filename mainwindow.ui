@@ -15,35 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1" rowspan="3">
-     <widget class="QScrollArea" name="canvas_area">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>24</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="canvasArea_content">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>2400</width>
-         <height>2400</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>2400</width>
-         <height>2400</height>
-        </size>
-       </property>
-      </widget>
-     </widget>
-    </item>
     <item row="2" column="0">
      <widget class="QScrollArea" name="buttons_area">
       <property name="sizePolicy">
@@ -72,7 +43,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>235</width>
+         <width>232</width>
          <height>69</height>
         </rect>
        </property>
@@ -162,35 +133,6 @@
       </widget>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QScrollArea" name="showDefined_area">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>6</horstretch>
-        <verstretch>36</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>240</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="showDefinedArea_content">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>235</width>
-         <height>401</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QScrollArea" name="blockChoice_area">
       <property name="sizePolicy">
@@ -213,8 +155,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>218</width>
-         <height>516</height>
+         <width>312</width>
+         <height>557</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -638,6 +580,64 @@
       </widget>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QScrollArea" name="showDefined_area">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>6</horstretch>
+        <verstretch>36</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>240</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="showDefinedArea_content">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>232</width>
+         <height>384</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="1" rowspan="3">
+     <widget class="QScrollArea" name="canvas_area">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>24</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="canvasArea_content">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>2400</width>
+         <height>2400</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>2400</width>
+         <height>2400</height>
+        </size>
+       </property>
+      </widget>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -646,7 +646,7 @@
      <x>0</x>
      <y>0</y>
      <width>1207</width>
-     <height>23</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
