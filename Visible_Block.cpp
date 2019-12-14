@@ -20,7 +20,7 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
             emit customContextMenuRequested(e->pos());
         }
     }
-    else if(event->type() == QEvent::MouseMove && isHover)
+    else if(event->type() == QEvent::MouseMove && isHover && movable)
     {
 //        setStyleSheet("background-color : white");
         QMouseEvent*e = static_cast<QMouseEvent*>(event);
@@ -33,7 +33,7 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
         move(new_x, new_y);
         block_position = this->pos();
     }
-    else if(event->type() == QEvent::MouseButtonRelease && isHover)
+    else if(event->type() == QEvent::MouseButtonRelease && isHover && movable)
     {
         isHover = false;
     }

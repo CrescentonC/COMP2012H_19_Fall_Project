@@ -15,7 +15,64 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
+    <item row="0" column="1" rowspan="4">
+     <widget class="QScrollArea" name="canvas_area">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>24</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="canvasArea_content">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>2400</width>
+         <height>2400</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>2400</width>
+         <height>2400</height>
+        </size>
+       </property>
+       <widget class="QPushButton" name="wireButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>710</x>
+          <y>20</y>
+          <width>181</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Comic Sans MS</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::DefaultContextMenu</enum>
+        </property>
+        <property name="text">
+         <string>LOGIC WIRE</string>
+        </property>
+        <property name="autoRepeatDelay">
+         <number>300</number>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <widget class="QScrollArea" name="buttons_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -153,15 +210,15 @@
       <widget class="QWidget" name="blockChoiceArea_content">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>0</y>
+         <x>-60</x>
+         <y>-146</y>
          <width>312</width>
          <height>557</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="9" column="1">
-         <widget class="QPushButton" name="euqalButton">
+         <widget class="QPushButton" name="equalButton">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -582,18 +639,6 @@
     </item>
     <item row="1" column="0">
      <widget class="QScrollArea" name="showDefined_area">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>6</horstretch>
-        <verstretch>36</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>240</width>
-        <height>16777215</height>
-       </size>
-      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -603,37 +648,8 @@
          <x>0</x>
          <y>0</y>
          <width>232</width>
-         <height>384</height>
+         <height>373</height>
         </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="1" rowspan="3">
-     <widget class="QScrollArea" name="canvas_area">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>24</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="canvasArea_content">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>2400</width>
-         <height>2400</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>2400</width>
-         <height>2400</height>
-        </size>
        </property>
       </widget>
      </widget>

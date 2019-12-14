@@ -11,7 +11,7 @@
 using namespace WriteBackend;
 
 enum Visible_Block_type{
-    USER_VAL,
+    USER_VAR,
     USER_FUNC,
     AND,
     ASSIGNMENT,
@@ -46,7 +46,12 @@ protected slots:
 
 public:
     Visible_Block() = delete;
-    Visible_Block(std::string _n, Visible_Block_type type, Block* parentFunc, QWidget *pa) : QLabel {pa}, name{_n}, block_type{type}, motherFunc{parentFunc}
+    Visible_Block(std::string _n, Visible_Block_type type,
+                  Block* parentFunc, QWidget *pa, bool _movable = true) : QLabel {pa},
+                                                                          name{_n},
+                                                                          block_type{type},
+                                                                          motherFunc{parentFunc},
+                                                                          movable{_movable}
     {
         setStyleSheet("background-color : white");
 //        setStyleSheet("border-style : outset");
@@ -60,8 +65,10 @@ public:
         connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
         block_position = this->pos();
         details = "block name:  " + this->name + " \n" + "mother function:  " + motherFunc->name;
+        setBlockText(name);
     }
     void setDetails(std::string detail){details = detail;}
+    void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
 
 private:
     std::string name;
@@ -69,6 +76,7 @@ private:
     Visible_Block_type block_type;
     Block* motherFunc{nullptr};    //under which function (eg main)
     QPoint block_position{0,0};    //for easier re-draw
+    bool movable{true};            // those definition shouldn't move
 };
 
 #endif // VISIBLE_BLOCK_H
