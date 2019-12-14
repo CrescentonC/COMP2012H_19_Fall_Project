@@ -6,7 +6,7 @@ Block::Block(Block *const &p, Block *const &n, QWidget *pa): QLabel {pa}, prev {
 {
     setStyleSheet("border : none");
     setStyleSheet("background-color : yellow");
-    setAutoFillBackground(false);
+    setAutoFillBackground(true);
     setGeometry(QRect(20, 20, 150, 80));
     setVisible(true);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -52,6 +52,7 @@ bool Block::eventFilter(QObject *, QEvent *event)
     }
     else if(event->type() == QEvent::MouseMove && isHover)
     {
+//        setStyleSheet("background-color : white");
         QMouseEvent*e = static_cast<QMouseEvent*>(event);
 
         int dx = e->pos().x() - lastPoint.x();
