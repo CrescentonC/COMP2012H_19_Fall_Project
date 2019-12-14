@@ -1,7 +1,7 @@
 #include "runwindow.h"
 #include "ui_runwindow.h"
 #include "ui_mainwindow.h"
-#include "mainwindow.h"
+#include "mainwindow.hpp"
 #include <iostream>
 
 RunWindow::RunWindow(QWidget *parent) :

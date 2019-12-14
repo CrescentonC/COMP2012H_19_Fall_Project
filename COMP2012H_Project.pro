@@ -16,27 +16,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    base_var.cpp \
-    block.cpp \
-    block_component/arith_block.cpp \
-    block_component/if_block.cpp \
-    block_component/step_block.cpp \
+    Block.cpp \
+    BuiltInOperators.cpp \
+    Func_Block.cpp \
+    Var_Block.cpp \
+    Visible_Block.cpp \
     main.cpp \
     mainwindow.cpp \
-    runwindow.cpp \
-    var_component/data_var.cpp \
-    var_component/func_var.cpp
+    runwindow.cpp
 
 HEADERS += \
-    base_var.h \
-    block.h \
-    block_component/arith_block.h \
-    block_component/if_block.h \
-    block_component/step_block.h \
-    mainwindow.h \
-    runwindow.h \
-    var_component/data_var.h \
-    var_component/func_var.h
+    Block.hpp \
+    BuiltInOperators.hpp \
+    Func_Block.hpp \
+    VarFunManager.hpp \
+    Var_Block.hpp \
+    Visible_Block.hpp \
+    helper.hpp \
+    mainwindow.hpp \
+    runwindow.h
 
 FORMS += \
     mainwindow.ui \
