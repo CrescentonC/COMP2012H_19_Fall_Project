@@ -60,7 +60,7 @@ public:
         setStyleSheet("border : none");
         setStyleSheet("background-color : white");
         setAutoFillBackground(true);
-//        setGeometry(QRect(200, 200, 150, 80));
+        setGeometry(QRect(200, 200, 150, 80));
         setVisible(true);
         this->setContextMenuPolicy(Qt::CustomContextMenu);
         installEventFilter(this);
