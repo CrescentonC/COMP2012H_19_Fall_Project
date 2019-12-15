@@ -61,7 +61,7 @@ class Var_Block: public Block
                 }
             }
             return other;
-        };
+        }
 
         ~Var_Block()
         {

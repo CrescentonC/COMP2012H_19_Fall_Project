@@ -210,10 +210,10 @@
       <widget class="QWidget" name="blockChoiceArea_content">
        <property name="geometry">
         <rect>
-         <x>-60</x>
-         <y>-146</y>
-         <width>312</width>
-         <height>557</height>
+         <x>0</x>
+         <y>0</y>
+         <width>218</width>
+         <height>516</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -614,6 +614,12 @@
     </item>
     <item row="1" column="0">
      <widget class="QScrollArea" name="showDefined_area">
+      <property name="maximumSize">
+       <size>
+        <width>240</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -622,8 +628,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>232</width>
-         <height>373</height>
+         <width>235</width>
+         <height>401</height>
         </rect>
        </property>
       </widget>
@@ -640,14 +646,6 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionLoad"/>
-   </widget>
-   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
