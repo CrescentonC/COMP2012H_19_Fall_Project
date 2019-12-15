@@ -4,6 +4,7 @@
 #include "QPen"
 #include "QInputDialog"
 #include "dataStorage.hpp"
+#include <typeinfo>
 
 using namespace dataStorage;
 
@@ -170,11 +171,31 @@ void Visible_Block::setDestination()
 
 void Visible_Block::setArrInd()
 {
-//    int inputValue = QInputDialog::getInt(this, "Array Index", "array index:",0);
-//    if(operand_source1 != nullptr)
-//    {
-//   ?     static_cast<Var_Block<>*>(operand_source1)
-//    }
+    int inputValue = QInputDialog::getInt(this, "Array Index", "array index:",0, 0);
+    if(operand_source1 != nullptr)
+    {
+        if(typeid(*operand_source1) == typeid(Var_Block<bool*>))
+        {
+            if(static_cast<unsigned int>(inputValue) < static_cast<Var_Block<bool*>*>(operand_source1)->getSize())
+            {
+                arrIndex = inputValue;
+            }
+        }
+        if(typeid(*operand_source1) == typeid(Var_Block<int*>))
+        {
+            if(static_cast<unsigned int>(inputValue) < static_cast<Var_Block<int*>*>(operand_source1)->getSize())
+            {
+                arrIndex = inputValue;
+            }
+        }
+        if(typeid(*operand_source1) == typeid(Var_Block<double*>))
+        {
+            if(static_cast<unsigned int>(inputValue) < static_cast<Var_Block<double*>*>(operand_source1)->getSize())
+            {
+                arrIndex = inputValue;
+            }
+        }
+    }
 }
 
 void Visible_Block::setSubFunc1()
