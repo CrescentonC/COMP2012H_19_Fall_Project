@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     currentFunc = "main";
     func_pool["main"] = new Func_Block("main", 0);
     Visible_Block *blk = new Visible_Block(currentFunc, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    blk->setMinimumSize(150, 50);
     visible_func_pool[currentFunc] = blk;
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_block_pool = new std::map<std::string, Visible_Block*>;
