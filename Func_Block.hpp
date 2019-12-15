@@ -102,7 +102,7 @@ class Func_Block: public Block
     private:
         void runFunc(FuncBody_info_t &toRun, int which = 0);
 
-        static inline bool const typeCheck(std::type_info const &info, varType_e const &type_e); // check whether the var 'info' is valid according to the type_e
+        static inline bool typeCheck(std::type_info const &info, varType_e const &type_e); // check whether the var 'info' is valid according to the type_e
 };
 
 } // namespace WriteBackend

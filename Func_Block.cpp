@@ -41,7 +41,7 @@ Func_Block::~Func_Block()
     if (myParams) delete [] myParams;
 }
 
-inline bool const Func_Block::typeCheck(std::type_info const &info, varType_e const &type_e) // check whether the var 'info' is valid according to the type_e
+inline bool Func_Block::typeCheck(std::type_info const &info, varType_e const &type_e) // check whether the var 'info' is valid according to the type_e
 {
     return ((type_e == varType_e::ANYTYPE) ||
             ((type_e == varType_e::NUMTYPE) && ((info == convertToTypeinfo(varType_e::INT)) || (info == convertToTypeinfo(varType_e::DOUBLE)))) ||
