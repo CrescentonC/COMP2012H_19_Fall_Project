@@ -3,6 +3,7 @@
 #include "iostream"
 #include "Block.hpp"
 #include "VarFunManager.hpp"
+#include "QInputDialog"
 
 using namespace WriteBackend;
 
@@ -63,5 +64,148 @@ void MainWindow::on_andButton_clicked()
 {
     std::string thisName = getAvailName("and");
     Visible_Block *blk = new Visible_Block(thisName, AND, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_assignmentButton_clicked()
+{
+    std::string thisName = getAvailName("assignment");
+    Visible_Block *blk = new Visible_Block(thisName, ASSIGNMENT, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_divisionButton_clicked()
+{
+    std::string thisName = getAvailName("division");
+    Visible_Block *blk = new Visible_Block(thisName, DIVISION, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_biggerThanButton_clicked()
+{
+    std::string thisName = getAvailName("biggerThan");
+    Visible_Block *blk = new Visible_Block(thisName, BIGGERTHAN, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+//void MainWindow::on_endButton_clicked()
+//{
+//    std::string thisName = getAvailName("end");
+//    Visible_Block *blk = new Visible_Block(thisName, END, func_pool[currentFunc], ui->canvasArea_content);
+//    (*visible_block_pool)[thisName] = blk;
+//}
+
+void MainWindow::on_equalButton_clicked()
+{
+    std::string thisName = getAvailName("equalCompare");
+    Visible_Block *blk = new Visible_Block(thisName, EQUALCOMPARE, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+//void MainWindow::on_forButton_clicked()
+//{
+//    std::string thisName = getAvailName("for");
+//    Visible_Block *blk = new Visible_Block(thisName, FOR, func_pool[currentFunc], ui->canvasArea_content);
+//    (*visible_block_pool)[thisName] = blk;
+//}
+
+/////////////////////////////////////////////////
+void MainWindow::on_funcDefButton_clicked()
+{
+    std::string thisName = getAvailName("func_def");
+    Visible_Block *blk = new Visible_Block(thisName, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    (*visible_block_pool)[thisName] = blk;
+}
+/////////////////////////////////////////////////
+
+void MainWindow::on_ifButton_clicked()
+{
+    std::string thisName = getAvailName("IF");
+    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+//    ui->canvasArea_content->repaint();
+//    ui->canvas_area->repaint();
+//    ui->canvas_area->viewport()->repaint();
+//    ui->canvasArea_content->update();
+}
+
+void MainWindow::on_minusButton_clicked()
+{
+    std::string thisName = getAvailName("minus");
+    Visible_Block *blk = new Visible_Block(thisName, MINUS, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_multiplyButton_clicked()
+{
+    std::string thisName = getAvailName("multiply");
+    Visible_Block *blk = new Visible_Block(thisName, MULTIPLY, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_notButton_clicked()
+{
+    std::string thisName = getAvailName("NOT");
+    Visible_Block *blk = new Visible_Block(thisName, NOT, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_orButton_clicked()
+{
+    std::string thisName = getAvailName("OR");
+    Visible_Block *blk = new Visible_Block(thisName, OR, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_plusButton_clicked()
+{
+    std::string thisName = getAvailName("plus");
+    Visible_Block *blk = new Visible_Block(thisName, PLUS, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_printButton_clicked()
+{
+    std::string thisName = getAvailName("print");
+    Visible_Block *blk = new Visible_Block(thisName, PRINT, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_smallerThanButton_clicked()
+{
+    std::string thisName = getAvailName("smallerThan");
+    Visible_Block *blk = new Visible_Block(thisName, SMALLERTHAN, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+//void MainWindow::on_startButton_clicked()
+//{
+//    std::string thisName = getAvailName("start");
+//    Visible_Block *blk = new Visible_Block(thisName, START, func_pool[currentFunc], ui->canvasArea_content);
+//    (*visible_block_pool)[thisName] = blk;
+//}
+
+void MainWindow::on_takeIndButton_clicked()
+{
+    std::string thisName = getAvailName("takeInd");
+    Visible_Block *blk = new Visible_Block(thisName, TAKEIND, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_varDefButton_clicked()
+{/*
+    QInputDialog::getDouble(this, "", "Please enter the battery voltage (volt)", 1.5,
+                                               0, 2147483647, 1, &ok);*/
+    bool ok = false;
+    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "2333", &ok);
+    std::string thisName = inputText.toStdString();
+    Visible_Block *blk = new Visible_Block(thisName, USER_VAR, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    (*visible_block_pool)[thisName] = blk;
+}
+
+void MainWindow::on_whileButton_clicked()
+{
+    std::string thisName = getAvailName("while");
+    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::WHILE, func_pool[currentFunc], ui->canvasArea_content);
     (*visible_block_pool)[thisName] = blk;
 }

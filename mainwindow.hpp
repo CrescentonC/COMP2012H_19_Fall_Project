@@ -29,25 +29,25 @@ private slots:
     void on_saveButton_clicked();
     void when_runWindow_closed();
     void on_andButton_clicked();
-//    void on_assignmentButton_clicked();
-//    void on_biggerThanButton_clicked();
-//    void on_divisionButton_clicked();
+    void on_assignmentButton_clicked();
+    void on_biggerThanButton_clicked();
+    void on_divisionButton_clicked();
 //    void on_endButton_clicked();
-//    void on_equalButton_clicked();
+    void on_equalButton_clicked();
 //    void on_forButton_clicked();
-//    void on_funcDefButton_clicked();
-//    void on_ifButton_clicked();
-//    void on_minusButton_clicked();
-//    void on_multiplyButton_clicked();
-//    void on_notButton_clicked();
-//    void on_orButton_clicked();
-//    void on_plusButton_clicked();
-//    void on_printButton_clicked();
-//    void on_smallerThanButton_clicked();
+    void on_funcDefButton_clicked();
+    void on_ifButton_clicked();
+    void on_minusButton_clicked();
+    void on_multiplyButton_clicked();
+    void on_notButton_clicked();
+    void on_orButton_clicked();
+    void on_plusButton_clicked();
+    void on_printButton_clicked();
+    void on_smallerThanButton_clicked();
 //    void on_startButton_clicked();
-//    void on_takeIndButton_clicked();
-//    void on_varDefButton_clicked();
-//    void on_whileButton_clicked();
+    void on_takeIndButton_clicked();
+    void on_varDefButton_clicked();
+    void on_whileButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -55,7 +55,7 @@ private:
     std::string currentFunc {};     //name of the current function
     std::map<std::string, WriteBackend::Block*> func_pool; // connect name and real function
     std::map<std::string, WriteBackend::Block*> var_pool; // connect name and real variable
-    std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block (可以全部一起变->ptr)
+    std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block
     std::map<WriteBackend::Block*, std::map<std::string, Visible_Block*>*> correspond_pool; // connect func and their corresponding blocks
 
     std::string getAvailName(std::string prefix);
