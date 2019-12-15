@@ -123,6 +123,10 @@ void MainWindow::on_ifButton_clicked()
     std::string thisName = getAvailName("IF");
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
     (*visible_block_pool)[thisName] = blk;
+//    ui->canvasArea_content->repaint();
+//    ui->canvas_area->repaint();
+//    ui->canvas_area->viewport()->repaint();
+//    ui->canvasArea_content->update();
 }
 
 void MainWindow::on_minusButton_clicked()

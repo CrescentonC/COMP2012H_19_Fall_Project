@@ -55,7 +55,7 @@ private:
     std::string currentFunc {};     //name of the current function
     std::map<std::string, WriteBackend::Block*> func_pool; // connect name and real function
     std::map<std::string, WriteBackend::Block*> var_pool; // connect name and real variable
-    std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block (可以全部一起变->ptr)
+    std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block
     std::map<WriteBackend::Block*, std::map<std::string, Visible_Block*>*> correspond_pool; // connect func and their corresponding blocks
 
     std::string getAvailName(std::string prefix);

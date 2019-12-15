@@ -32,6 +32,7 @@ HEADERS += \
     VarFunManager.hpp \
     Var_Block.hpp \
     Visible_Block.hpp \
+    dataStorage.hpp \
     helper.hpp \
     mainwindow.hpp \
     runwindow.h
