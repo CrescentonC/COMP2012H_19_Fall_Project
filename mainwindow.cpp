@@ -19,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     currentFunc = "main";
     func_pool["main"] = new Func_Block("main", 0);
     visible_block_pool = new std::map<std::string, Visible_Block*>;
+    QPushButton *logicWire = new QPushButton {ui->canvas_area};
+    logicWire->setText("Logic Wire");
+    logicWire->setGeometry(QRect(24, 24, 120, 72));
+    QFont font2;
+    font2.setFamily(QString::fromUtf8("Arial"));
+    font2.setPointSize(12);
+    logicWire->setFont(font2);
 }
 
 MainWindow::~MainWindow()
@@ -58,7 +65,6 @@ void MainWindow::when_runWindow_closed()
 {
     this->setEnabled(true);
 }
-
 
 void MainWindow::on_andButton_clicked()
 {

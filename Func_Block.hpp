@@ -21,6 +21,7 @@ class BuiltInRunFunc_helper_base
 {
     public:
         virtual void operator()(Func_Block*) = 0;
+        virtual ~BuiltInRunFunc_helper_base() {}
 }; // later one the callback function definition should be derived class definition with override function operator()
 
 class Func_Block: public Block
