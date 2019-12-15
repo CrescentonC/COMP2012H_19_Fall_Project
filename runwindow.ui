@@ -31,10 +31,93 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>884</width>
+         <width>438</width>
          <height>758</height>
         </rect>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="showFlowArea_content_layout">
+          <item>
+           <widget class="QLabel" name="showFlow_title">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Running Flow:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QScrollArea" name="showData_area">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>20</horstretch>
+        <verstretch>24</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>295</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="showDataArea_content">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>293</width>
+         <height>668</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>293</width>
+         <height>668</height>
+        </size>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="showDataArea_content_layout">
+          <item>
+           <widget class="QLabel" name="showData_title">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>All Variables:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -42,7 +125,7 @@
      <widget class="QScrollArea" name="button_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>8</horstretch>
+        <horstretch>20</horstretch>
         <verstretch>3</verstretch>
        </sizepolicy>
       </property>
@@ -186,44 +269,47 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QScrollArea" name="showData_area">
+    <item row="0" column="2" rowspan="2">
+     <widget class="QScrollArea" name="showOutput_area">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>8</horstretch>
-        <verstretch>24</verstretch>
+        <horstretch>24</horstretch>
+        <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>295</width>
-        <height>16777215</height>
-       </size>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="showDataArea_content">
+      <widget class="QWidget" name="showOutputArea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>293</width>
-         <height>668</height>
+         <width>438</width>
+         <height>758</height>
         </rect>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>293</width>
-         <height>668</height>
-        </size>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QVBoxLayout" name="showOutputArea_content_layout">
+          <item>
+           <widget class="QLabel" name="showOutput_title">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Program Output:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

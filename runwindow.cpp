@@ -9,6 +9,9 @@ RunWindow::RunWindow(QWidget *parent) :
     ui(new Ui::RunWindow)
 {
     ui->setupUi(this);
+    ui->showDataArea_content_layout->setAlignment(Qt::AlignTop);
+    ui->showFlowArea_content_layout->setAlignment(Qt::AlignTop);
+    ui->showOutputArea_content_layout->setAlignment(Qt::AlignTop);
 }
 
 RunWindow::~RunWindow()
