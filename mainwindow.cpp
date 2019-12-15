@@ -221,8 +221,7 @@ void MainWindow::on_varDefButton_clicked()
 {
     bool ok = false;
     QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "2333", &ok);
-    std::string thisName = inputText.toStdString();
-//    ok = false;
+    std::string thisName = "Var: " + inputText.toStdString();
 
     Visible_Block *blk = new Visible_Block(thisName, USER_VAR, func_pool[currentFunc], ui->showDefinedArea_content, false);
     blk->setMinimumSize(150, 50);
