@@ -21,6 +21,7 @@ SOURCES += \
     Func_Block.cpp \
     Var_Block.cpp \
     Visible_Block.cpp \
+    dataStorage.cpp \
     main.cpp \
     mainwindow.cpp \
     runwindow.cpp
@@ -33,7 +34,6 @@ HEADERS += \
     Var_Block.hpp \
     Visible_Block.hpp \
     dataStorage.hpp \
-    helper.hpp \
     mainwindow.hpp \
     runwindow.h
 

@@ -6,6 +6,7 @@
 #include "QInputDialog"
 
 using namespace WriteBackend;
+using namespace dataStorage;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,7 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     // init main function
     currentFunc = "main";
     func_pool["main"] = new Func_Block("main", 0);
+    Visible_Block *blk = new Visible_Block(currentFunc, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    visible_func_pool[currentFunc] = blk;
+    ui->showDefinedArea_content_layout->addWidget(blk);
     visible_block_pool = new std::map<std::string, Visible_Block*>;
+    correspond_pool[func_pool[currentFunc]] = visible_block_pool;
 
     // ================= for setting up the logic wire push button ====================
     QPushButton *logicWire = new QPushButton {ui->canvas_area};
@@ -121,10 +126,6 @@ void MainWindow::on_ifButton_clicked()
     std::string thisName = getAvailName("IF");
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
     (*visible_block_pool)[thisName] = blk;
-//    ui->canvasArea_content->repaint();
-//    ui->canvas_area->repaint();
-//    ui->canvas_area->viewport()->repaint();
-//    ui->canvasArea_content->update();
 }
 
 void MainWindow::on_minusButton_clicked()
@@ -204,18 +205,8 @@ void MainWindow::on_whileButton_clicked()
     (*visible_block_pool)[thisName] = blk;
 }
 
-/////////////////////////////////////////////////
-void MainWindow::on_varDefButton_clicked()
-{
-    bool ok = false;
-    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "2333", &ok);
-    std::string thisName = inputText.toStdString();
-    Visible_Block *blk = new Visible_Block(thisName, USER_VAR, func_pool[currentFunc], ui->showDefinedArea_content, false);
-    blk->setMinimumSize(150, 50);
-    ui->showDefinedArea_content_layout->addWidget(blk);
-    (*visible_block_pool)[thisName] = blk;
-}
 
+/////////////////////////////////////////////////
 void MainWindow::on_funcDefButton_clicked()
 {
     std::string thisName = getAvailName("func_def");
@@ -224,4 +215,18 @@ void MainWindow::on_funcDefButton_clicked()
     ui->showDefinedArea_content_layout->addWidget(blk);
     (*visible_block_pool)[thisName] = blk;
 }
+
+void MainWindow::on_varDefButton_clicked()
+{
+    bool ok = false;
+    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "2333", &ok);
+    std::string thisName = inputText.toStdString();
+//    ok = false;
+
+    Visible_Block *blk = new Visible_Block(thisName, USER_VAR, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    blk->setMinimumSize(150, 50);
+    ui->showDefinedArea_content_layout->addWidget(blk);
+    (*visible_block_pool)[thisName] = blk;
+}
 /////////////////////////////////////////////////
+
