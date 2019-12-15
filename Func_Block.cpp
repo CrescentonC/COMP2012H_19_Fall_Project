@@ -134,7 +134,7 @@ bool Func_Block::setNextBodyParam(unsigned int whichParam, Block** ref, unsigned
 void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
 {
     // step 1, set the param for the next properly, no typeCheck here but should be fine since we have already checked type previously
-    // std::cout << name << " called " << toRun.bodyFuncs[which].func->name << std::endl;
+    std::cout << name << " calling " << toRun.bodyFuncs[which].func->name << std::endl;
     Param_info_t *temp = toRun.bodyFuncs[which].func->numOfParams ? new Param_info_t [toRun.bodyFuncs[which].func->numOfParams] : nullptr;
     for (unsigned int i {0}; i < (toRun.bodyFuncs[which].func->numOfParams); ++i)
     {
@@ -178,7 +178,6 @@ void Func_Block::run()
         default:
             std::cerr << "something wrong at " << name << std::endl;
             exit(-1);
-//            break;
         }
     }
 }
