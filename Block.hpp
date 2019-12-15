@@ -11,6 +11,7 @@
 #include <memory.h>
 #include <deque>
 #include <map>
+#include <QEventLoop>
 
 namespace WriteBackend
 {

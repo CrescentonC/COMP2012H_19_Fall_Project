@@ -4,6 +4,9 @@
 namespace WriteBackend
 {
 
+static ::QPushButton* *runWindowStep {nullptr};
+void setRunWindowStep(QPushButton* *ptr) {runWindowStep = ptr;}
+
 std::type_info const &convertToTypeinfo(varType_e _t)
 {
     switch(_t)
@@ -26,10 +29,18 @@ std::type_info const &convertToTypeinfo(varType_e _t)
 }
 
 Func_Block::Func_Block(std::string name, unsigned int numOfParam, BuiltInRunFunc_helper_base *runFunc): Block {name},
-                                                                                                                        myRunFunc {runFunc},
-                                                                                                                        numOfParams {numOfParam},
-                                                                                                                        myParams {numOfParams ? new Param_info_t [numOfParams] : nullptr},
-                                                                                                                        myBody {} {}
+                                                                                                        myRunFunc {runFunc},
+                                                                                                        numOfParams {numOfParam},
+                                                                                                        myParams {numOfParams ? new Param_info_t [numOfParams] : nullptr},
+                                                                                                        myBody {} {}
+
+
+bool Func_Block::isStepping {false};
+
+void Func_Block::set_isStepping(bool v)
+{
+    Func_Block::isStepping = v;
+}
 
 Func_Block::~Func_Block()
 {
@@ -135,6 +146,15 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
 {
     // step 1, set the param for the next properly, no typeCheck here but should be fine since we have already checked type previously
     std::cout << name << " calling " << toRun.bodyFuncs[which].func->name << std::endl;
+
+    // step 1.5: dealing with stepping
+    if (Func_Block::isStepping)
+    {
+        QEventLoop el;
+        QObject::connect(*runWindowStep, &QPushButton::clicked, &el, &QEventLoop::quit);
+        el.exec();
+    }
+
     Param_info_t *temp = toRun.bodyFuncs[which].func->numOfParams ? new Param_info_t [toRun.bodyFuncs[which].func->numOfParams] : nullptr;
     for (unsigned int i {0}; i < (toRun.bodyFuncs[which].func->numOfParams); ++i)
     {
@@ -143,8 +163,10 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
         temp[i].realArg = (toRun.bodyFuncs[which].func->myParams[i]).realArg;
         (toRun.bodyFuncs[which].func->myParams[i]).realArg = ((toRun.bodyFuncs[which]).args[i]) ? *((toRun.bodyFuncs[which]).args[i]) : nullptr;
     }
+
     // step 2, run the proper next properly
     toRun.bodyFuncs[which].func->run();
+
     // step 3, reset the param of the func being runned
     for (unsigned int i {0}; i < (toRun.bodyFuncs[which].func->numOfParams); ++i)
     {

@@ -28,6 +28,7 @@ private slots:
     void on_runButton_clicked();
     void on_clearButton_clicked();
     void when_runWindow_closed();
+    void _on_logicWireButton_toggled(bool checked);
     void on_andButton_clicked();
     void on_assignmentButton_clicked();
     void on_biggerThanButton_clicked();
@@ -53,6 +54,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     RunWindow *runWindow {nullptr};
+
     std::string currentFunc {};     //name of the current function
     std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block
 

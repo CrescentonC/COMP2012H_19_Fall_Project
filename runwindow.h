@@ -15,6 +15,7 @@ class RunWindow : public QMainWindow
 public:
     explicit RunWindow(QWidget *parent = nullptr);
     ~RunWindow() override;
+    Ui::RunWindow *getMyUI() {return ui;}
 
 private:
     Ui::RunWindow *ui;

@@ -2,6 +2,8 @@
 
 #include "Block.hpp"
 #include "Var_Block.hpp"
+#include <QPushButton>
+#include <QObject>
 
 namespace WriteBackend
 {
@@ -15,6 +17,7 @@ enum bodyType_e
 };
 
 extern std::type_info const &convertToTypeinfo(varType_e _t);
+extern void setRunWindowStep(QPushButton* *ptr);
 
 class Func_Block;
 class BuiltInRunFunc_helper_base
@@ -68,7 +71,12 @@ class Func_Block: public Block
 
         std::deque<FuncBody_info_t> myBody;              // everything in this deque should be fixed after the funtion is fully defined
 
+        static bool isStepping;
+
     public: // member funcs
+
+        static void set_isStepping(bool v);
+
         Func_Block() = delete;
 
         Func_Block(Func_Block const &) = delete;

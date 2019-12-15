@@ -4,6 +4,7 @@
 #include "Block.hpp"
 #include "VarFunManager.hpp"
 #include "QInputDialog"
+#include "ui_runwindow.h"
 
 using namespace WriteBackend;
 using namespace dataStorage;
@@ -28,14 +29,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     // ================= for setting up the logic wire push button ====================
     QPushButton *logicWire = new QPushButton {ui->canvas_area};
+    logicWire->setCheckable(true);
     logicWire->setText("Logic Wire");
     logicWire->setGeometry(QRect(24, 24, 120, 72));
     QFont font2;
     font2.setFamily(QString::fromUtf8("Arial"));
     font2.setPointSize(12);
     logicWire->setFont(font2);
+    connect(logicWire, &QPushButton::toggled, this, &MainWindow::_on_logicWireButton_toggled);
     // ================= for setting up the logic wire push button ====================
+
     ui->showDefinedArea_content_layout->setAlignment(Qt::AlignTop);
+
+    setRunWindowStep(&(runWindow->getMyUI()->stepButton));
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +70,11 @@ void MainWindow::on_runButton_clicked()
 void MainWindow::on_clearButton_clicked()
 {
     // TODO
+}
+
+void MainWindow::_on_logicWireButton_toggled(bool checked)
+{
+    std::cout << "aha " << checked << std::endl;
 }
 
 void MainWindow::when_runWindow_closed()
