@@ -2,16 +2,10 @@
 #include "QImage"
 #include "QPainter"
 #include "QPen"
+#include "QInputDialog"
+#include "dataStorage.hpp"
 
-//void Visible_Block::paintEvent(QPaintEvent * event)
-//{
-//    QLabel::paintEvent(event);
-
-//    QImage image(QString::fromStdString(":/Resources/rect.png"));
-
-//    setPixmap(QPixmap::fromImage(image));
-////    setVisible(true);
-//}
+using namespace dataStorage;
 
 bool Visible_Block::eventFilter(QObject *, QEvent *event)
 {
@@ -26,6 +20,10 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
         {
             lastPoint = e->pos();
             isHover = true;
+            if(block_type == USER_FUNC)
+            {
+                emit user_func_clicked(name);
+            }
         }
 
         if(rect().contains(e->pos()) && e->button() == Qt::RightButton)
@@ -33,22 +31,24 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
             emit customContextMenuRequested(e->pos());
         }
     }
-    else if(event->type() == QEvent::MouseMove && isHover && movable)
+    else if(event->type() == QEvent::MouseMove && isHover)
     {
-//        setStyleSheet("background-color : white");
         QMouseEvent*e = static_cast<QMouseEvent*>(event);
 
-        int dx = e->pos().x() - lastPoint.x();
-        int dy = e->pos().y() - lastPoint.y();
-        int new_x = x() + dx;
-        int new_y = y() + dy;
+        if(movable)
+        {
+            int dx = e->pos().x() - lastPoint.x();
+            int dy = e->pos().y() - lastPoint.y();
+            int new_x = x() + dx;
+            int new_y = y() + dy;
 
-        move(new_x, new_y);
-        block_position = this->pos();
+            move(new_x, new_y);
+            block_position = this->pos();
+        }
     }
-    else if(event->type() == QEvent::MouseButtonRelease && isHover && movable)
+    else if(event->type() == QEvent::MouseButtonRelease)
     {
-        isHover = false;
+        if(isHover) isHover = false;
     }
 
     return false;
@@ -57,21 +57,58 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
 void Visible_Block::ShowContextMenu(const QPoint& pos)
 {
     QMenu myMenu("my menu", this);
-    QAction action1("Delete", this);
-    connect(&action1, SIGNAL(triggered()), this, SLOT(deleteBlock()));
-    QAction action2("Details", this);
-    connect(&action2, SIGNAL(triggered()), this, SLOT(showDetails()));
-    QAction action3("Operand1", this);
-    connect(&action3, SIGNAL(triggered()), this, SLOT(setSource1_()));
-    QAction action4("Operand2", this);
-    connect(&action4, SIGNAL(triggered()), this, SLOT(setSource2_()));
-    QAction action5("Destination", this);
-    connect(&action5, SIGNAL(triggered()), this, SLOT(setDestination_()));
-    myMenu.addAction(&action1);
-    myMenu.addAction(&action2);
-    myMenu.addAction(&action3);
-    myMenu.addAction(&action4);
-    myMenu.addAction(&action5);
+
+    myMenu.addAction(tr("Delete"), this, SLOT(deleteBlock()));
+    myMenu.addAction(tr("Details"), this, SLOT(showDetails()));
+
+    if(block_type == Visible_Block_type::AND ||
+            block_type == Visible_Block_type::BIGGERTHAN ||
+            block_type == Visible_Block_type::DIVISION ||
+            block_type == Visible_Block_type::EQUALCOMPARE ||
+            block_type == Visible_Block_type::MINUS ||
+            block_type == Visible_Block_type::MULTIPLY ||
+            block_type == Visible_Block_type::OR ||
+            block_type == Visible_Block_type::PLUS ||
+            block_type == Visible_Block_type::SMALLERTHAN)
+    {
+        myMenu.addAction(tr("Operand1"), this, SLOT(setSource1()));
+        myMenu.addAction(tr("Operand2"), this, SLOT(setSource2()));
+        myMenu.addAction(tr("Destination"), this, SLOT(setDestination()));
+    }
+
+    else if(block_type == Visible_Block_type::ASSIGNMENT ||
+            block_type == Visible_Block_type::NOT)
+    {
+        myMenu.addAction(tr("Operand1"), this, SLOT(setSource1()));
+        myMenu.addAction(tr("Destination"), this, SLOT(setDestination()));
+    }
+
+    else if(block_type == Visible_Block_type::TAKEINDGET ||
+            block_type == Visible_Block_type::TAKEINDSET)
+    {
+        myMenu.addAction(tr("Array name"), this, SLOT(setSource1()));
+        myMenu.addAction(tr("Array Index"), this, SLOT(setArrInd()));
+        myMenu.addAction(tr("Destination"), this, SLOT(setDestination()));
+    }
+
+    else if(block_type == Visible_Block_type::IF)
+    {
+        myMenu.addAction(tr("Bool Operand"), this, SLOT(setSource1()));
+        myMenu.addAction(tr("IF true"), this, SLOT(setSubFunc1()));
+        myMenu.addAction(tr("IF false"), this, SLOT(setSubFunc2()));
+    }
+
+    else if(block_type == Visible_Block_type::WHILE)
+    {
+        myMenu.addAction(tr("Bool Operand"), this, SLOT(setSource1()));
+        myMenu.addAction(tr("Loop Func"),this, SLOT(setSubFunc1()));
+    }
+
+    else if(block_type == Visible_Block_type::USER_FUNC)
+    {
+        myMenu.addAction(tr("Edit Function"), this, SLOT(editFunc()));
+    }
+
     myMenu.exec(mapToGlobal(pos));
 }
 
@@ -85,25 +122,146 @@ void Visible_Block::showDetails()
 void Visible_Block::deleteBlock()
 {
     // seems strange...
+    emit visible_block_delete(name);
     this->deleteLater();
 }
 
-void Visible_Block::setSource1_() {};
-void Visible_Block::setSource2_() {};
-void Visible_Block::setDestination_() {};
+void Visible_Block::setSource1()
+{
+    QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        operand_source1 = var_pool[inputName];
+    }
+}
+
+void Visible_Block::setSource2()
+{
+    QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        operand_source2 = var_pool[inputName];
+    }
+}
+
+void Visible_Block::setDestination()
+{
+    QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        operand_destination = var_pool[inputName];
+    }
+}
+
+void Visible_Block::setArrInd()
+{
+//    int inputValue = QInputDialog::getInt(this, "Array Index", "array index:",0);
+//    if(operand_source1 != nullptr)
+//    {
+//   ?     static_cast<Var_Block<>*>(operand_source1)
+//    }
+}
+
+void Visible_Block::setSubFunc1()
+{
+    QString inputText = QInputDialog::getText(this, "SubFunction1", "function name",
+                                              QLineEdit::Normal, "FUNC2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = func_pool.find(inputName);
+    if(iter != func_pool.end())
+    {
+        subFunction1 = func_pool[inputName];
+    }
+}
+
+void Visible_Block::setSubFunc2()
+{
+    QString inputText = QInputDialog::getText(this, "SubFunction2", "function name",
+                                              QLineEdit::Normal, "FUNC2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = func_pool.find(inputName);
+    if(iter != func_pool.end())
+    {
+        subFunction2 = func_pool[inputName];
+    }
+}
+
+void Visible_Block::editFunc()
+{
+    emit user_func_edit(name);
+}
 
 bool Visible_Block::currentBlockVerify()
 {
     std::string info_wrong = "\nlack second source operand";
     std::string info_right = "\nverify ok";
-    if(block_type != ASSIGNMENT &&
-       block_type != NOT &&
-       block_type != USER_VAR &&
-       block_type != USER_FUNC &&
-       block_type != IF &&
-       operand_source2 == nullptr)
+    bool status = false;
+    if(block_type == Visible_Block_type::AND ||
+            block_type == Visible_Block_type::BIGGERTHAN ||
+            block_type == Visible_Block_type::DIVISION ||
+            block_type == Visible_Block_type::EQUALCOMPARE ||
+            block_type == Visible_Block_type::MINUS ||
+            block_type == Visible_Block_type::MULTIPLY ||
+            block_type == Visible_Block_type::OR ||
+            block_type == Visible_Block_type::PLUS ||
+            block_type == Visible_Block_type::SMALLERTHAN)
+    {
+        if(operand_source1 == nullptr ||
+                operand_source2 == nullptr ||
+                operand_destination == nullptr)
+            status = false;
+    }
+
+    else if(block_type == Visible_Block_type::ASSIGNMENT ||
+            block_type == Visible_Block_type::NOT)
+    {
+        if(operand_source1 == nullptr ||
+           operand_source2 == nullptr)
+        status = false;
+    }
+
+    else if(block_type == Visible_Block_type::TAKEINDGET ||
+            block_type == Visible_Block_type::TAKEINDSET)
+    {
+        if(operand_source1 == nullptr ||
+           arrIndex == -1 ||
+           operand_destination == nullptr)
+        status = false;
+    }
+
+    else if(block_type == Visible_Block_type::IF||
+            block_type == Visible_Block_type::WHILE)
+    {
+        if(operand_source1 == nullptr || subFunction1 == nullptr)
+            status = false;
+        if(block_type == Visible_Block_type::IF && subFunction2 == nullptr)
+            status = false;
+    }
+
+
+    if(status == false)
     {
         details += info_wrong;
+        setStyleSheet("background-color : red");
         return false;
     }
     else
@@ -112,6 +270,7 @@ bool Visible_Block::currentBlockVerify()
         {
             details = details.substr(0, details.size()-info_wrong.size());
             details += info_right;
+            setStyleSheet("background-color : white");
             return true;
         }
     }

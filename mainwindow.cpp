@@ -50,6 +50,7 @@ MainWindow::~MainWindow()
     delete runWindow;
 }
 
+
 std::string MainWindow::getAvailName(std::string prefix)
 {
     int id = 0;
@@ -86,14 +87,16 @@ void MainWindow::on_andButton_clicked()
 {
     std::string thisName = getAvailName("and");
     Visible_Block *blk = new Visible_Block(thisName, AND, func_pool[currentFunc], ui->canvasArea_content);
-
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_assignmentButton_clicked()
 {
     std::string thisName = getAvailName("assignment");
     Visible_Block *blk = new Visible_Block(thisName, ASSIGNMENT, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -101,6 +104,7 @@ void MainWindow::on_divisionButton_clicked()
 {
     std::string thisName = getAvailName("division");
     Visible_Block *blk = new Visible_Block(thisName, DIVISION, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -108,35 +112,23 @@ void MainWindow::on_biggerThanButton_clicked()
 {
     std::string thisName = getAvailName("biggerThan");
     Visible_Block *blk = new Visible_Block(thisName, BIGGERTHAN, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
-
-//void MainWindow::on_endButton_clicked()
-//{
-//    std::string thisName = getAvailName("end");
-//    Visible_Block *blk = new Visible_Block(thisName, END, func_pool[currentFunc], ui->canvasArea_content);
-//    (*visible_block_pool)[thisName] = blk;
-//}
 
 void MainWindow::on_equalButton_clicked()
 {
     std::string thisName = getAvailName("equalCompare");
     Visible_Block *blk = new Visible_Block(thisName, EQUALCOMPARE, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
-
-//void MainWindow::on_forButton_clicked()
-//{
-//    std::string thisName = getAvailName("for");
-//    Visible_Block *blk = new Visible_Block(thisName, FOR, func_pool[currentFunc], ui->canvasArea_content);
-//    (*visible_block_pool)[thisName] = blk;
-//}
-
 
 void MainWindow::on_ifButton_clicked()
 {
     std::string thisName = getAvailName("IF");
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -144,6 +136,7 @@ void MainWindow::on_minusButton_clicked()
 {
     std::string thisName = getAvailName("minus");
     Visible_Block *blk = new Visible_Block(thisName, MINUS, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -151,6 +144,7 @@ void MainWindow::on_multiplyButton_clicked()
 {
     std::string thisName = getAvailName("multiply");
     Visible_Block *blk = new Visible_Block(thisName, MULTIPLY, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -158,6 +152,7 @@ void MainWindow::on_notButton_clicked()
 {
     std::string thisName = getAvailName("NOT");
     Visible_Block *blk = new Visible_Block(thisName, NOT, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -165,6 +160,7 @@ void MainWindow::on_orButton_clicked()
 {
     std::string thisName = getAvailName("OR");
     Visible_Block *blk = new Visible_Block(thisName, OR, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -172,6 +168,7 @@ void MainWindow::on_plusButton_clicked()
 {
     std::string thisName = getAvailName("plus");
     Visible_Block *blk = new Visible_Block(thisName, PLUS, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -179,6 +176,7 @@ void MainWindow::on_printButton_clicked()
 {
     std::string thisName = getAvailName("print");
     Visible_Block *blk = new Visible_Block(thisName, PRINT, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -186,27 +184,31 @@ void MainWindow::on_smallerThanButton_clicked()
 {
     std::string thisName = getAvailName("smallerThan");
     Visible_Block *blk = new Visible_Block(thisName, SMALLERTHAN, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
-//void MainWindow::on_startButton_clicked()
-//{
-//    std::string thisName = getAvailName("start");
-//    Visible_Block *blk = new Visible_Block(thisName, START, func_pool[currentFunc], ui->canvasArea_content);
-//    (*visible_block_pool)[thisName] = blk;
-//}
+void MainWindow::on_startButton_clicked()
+{
+    std::string thisName = getAvailName("start");
+    Visible_Block *blk = new Visible_Block("start", START, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
+    (*visible_block_pool)[thisName] = blk;
+}
 
 void MainWindow::on_takeIndSetButton_clicked()
 {
     std::string thisName = getAvailName("takeIndSet");
-    Visible_Block *blk = new Visible_Block(thisName, TAKEIND, func_pool[currentFunc], ui->canvasArea_content);
+    Visible_Block *blk = new Visible_Block(thisName, TAKEINDSET, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
 void MainWindow::on_takeIndGetButton_clicked()
 {
     std::string thisName = getAvailName("takeIndGet");
-    Visible_Block *blk = new Visible_Block(thisName, TAKEIND, func_pool[currentFunc], ui->canvasArea_content);
+    Visible_Block *blk = new Visible_Block(thisName, TAKEINDGET, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -214,6 +216,7 @@ void MainWindow::on_whileButton_clicked()
 {
     std::string thisName = getAvailName("while");
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::WHILE, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
 }
 
@@ -245,6 +248,7 @@ void MainWindow::on_funcDefButton_clicked()
     blk->setMinimumSize(150, 50);
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_func_pool[thisName] = blk;
+    correspond_pool[func_pool[thisName]] = new std::map<std::string, Visible_Block*>;
 }
 
 void MainWindow::on_varDefButton_clicked()
@@ -313,4 +317,31 @@ void MainWindow::on_varDefButton_clicked()
     visible_var_pool[thisName] = blk;
 }
 /////////////////////////////////////////////////
+
+
+//=================================== other slots ===============================
+void MainWindow::eraseBlock(std::string deleteName)
+{
+    visible_block_pool->erase(deleteName);
+}
+
+void MainWindow::hideAllFlowBlk()
+{
+    std::map<std::string, Visible_Block*>::iterator iter;
+    for(iter = visible_block_pool->begin(); iter != visible_block_pool->end(); ++iter)
+    {
+        iter->second->setVisible(false);
+    }
+}
+
+void MainWindow::retrieveAllFlowBlk()
+{
+    std::map<std::string, Visible_Block*>::iterator iter;
+    for(iter = visible_block_pool->begin(); iter != visible_block_pool->end(); ++iter)
+    {
+        iter->second->setVisible(true);
+    }
+}
+
+
 
