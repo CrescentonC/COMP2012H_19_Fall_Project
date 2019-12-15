@@ -34,7 +34,8 @@ class Func_Block: public Block
     friend class ForMinusBlock;
     friend class ForDivisionBlock;
     friend class ForMultiplicationBlock;
-    friend class ForSubsBlock;
+    friend class ForSubsGetBlock;
+    friend class ForSubsSetBlock;
     friend class ForAssignmentBlock;
     friend class ForNotBlock;
     friend class ForAndBlock;

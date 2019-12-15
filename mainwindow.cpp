@@ -29,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     font2.setPointSize(12);
     logicWire->setFont(font2);
     // ================= for setting up the logic wire push button ====================
-
     ui->showDefinedArea_content_layout->setAlignment(Qt::AlignTop);
 }
 
@@ -57,11 +56,6 @@ void MainWindow::on_runButton_clicked()
 }
 
 void MainWindow::on_clearButton_clicked()
-{
-    // TODO
-}
-
-void MainWindow::on_saveButton_clicked()
 {
     // TODO
 }
@@ -189,13 +183,19 @@ void MainWindow::on_smallerThanButton_clicked()
 //    (*visible_block_pool)[thisName] = blk;
 //}
 
-void MainWindow::on_takeIndButton_clicked()
+void MainWindow::on_takeIndSetButton_clicked()
 {
-    std::string thisName = getAvailName("takeInd");
+    std::string thisName = getAvailName("takeIndSet");
     Visible_Block *blk = new Visible_Block(thisName, TAKEIND, func_pool[currentFunc], ui->canvasArea_content);
     (*visible_block_pool)[thisName] = blk;
 }
 
+void MainWindow::on_takeIndGetButton_clicked()
+{
+    std::string thisName = getAvailName("takeIndGet");
+    Visible_Block *blk = new Visible_Block(thisName, TAKEIND, func_pool[currentFunc], ui->canvasArea_content);
+    (*visible_block_pool)[thisName] = blk;
+}
 
 void MainWindow::on_whileButton_clicked()
 {
@@ -204,6 +204,7 @@ void MainWindow::on_whileButton_clicked()
     (*visible_block_pool)[thisName] = blk;
 }
 
+/////////////////////////////////////////////////
 void MainWindow::on_varDefButton_clicked()
 {
     bool ok = false;
@@ -215,7 +216,6 @@ void MainWindow::on_varDefButton_clicked()
     (*visible_block_pool)[thisName] = blk;
 }
 
-/////////////////////////////////////////////////
 void MainWindow::on_funcDefButton_clicked()
 {
     std::string thisName = getAvailName("func_def");

@@ -51,11 +51,17 @@ static class ForMultiplicationBlock : public BuiltInRunFunc_helper_base
         virtual void operator()(Func_Block *that) override;
 } forBuiltInMultiplication;
 
-static class ForSubsBlock : public BuiltInRunFunc_helper_base
+static class ForSubsGetBlock : public BuiltInRunFunc_helper_base
 {
     public:
         virtual void operator()(Func_Block *that) override;
-} forBuiltInSubs;
+} forBuiltInSubsGet;
+
+static class ForSubsSetBlock : public BuiltInRunFunc_helper_base
+{
+public:
+    virtual void operator()(Func_Block *that) override;
+} forBuiltInSubsSet;
 
 static class ForAssignmentBlock : public BuiltInRunFunc_helper_base
 {
@@ -386,58 +392,72 @@ void ForMultiplicationBlock::operator()(Func_Block *that)
     }
 }
 
-void ForSubsBlock::operator()(Func_Block *that)
+void ForSubsGetBlock::operator()(Func_Block *that)
 {
-    if (that && that->numOfParams != 4)
+    if (that && that->numOfParams != 3)
     {
         std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
         return;
     }
-    if (that && that->myParams && that->myParams[1].realArg && that->myParams[2].realArg && (that->myParams[3].realArg || that->myParams[0].realArg))
+    if (that && that->myParams && that->myParams[1].realArg && that->myParams[2].realArg && that->myParams[0].realArg)
     {
+        std::type_info const &info0 {typeid(*(that->myParams[0].realArg))};
         std::type_info const &info1 {typeid(*(that->myParams[1].realArg))};
-        std::type_info const &info0 {that->myParams[0].realArg ? typeid(*(that->myParams[0].realArg)) : convertToTypeinfo(varType_e::ERRTYPE)};
-        std::type_info const &info3 {that->myParams[3].realArg ? typeid(*(that->myParams[3].realArg)) : convertToTypeinfo(varType_e::ERRTYPE)};
         int index {that->myParams[2].realArg->val._int};
-        if (that->myParams[3].realArg)
+        if (info1 == convertToTypeinfo(varType_e::INTARR) && info0 == convertToTypeinfo(varType_e::INT))
         {
-            if (info1 == convertToTypeinfo(varType_e::INTARR) && info3 == convertToTypeinfo(varType_e::INT))
-            {
-                that->myParams[1].realArg->val._intArr[index] = that->myParams[3].realArg->val._int;
-            }
-            else if (info1 == convertToTypeinfo(varType_e::DOUBLEARR) && info3 == convertToTypeinfo(varType_e::DOUBLE))
-            {
-                that->myParams[1].realArg->val._doubleArr[index] = that->myParams[3].realArg->val._double;
-            }
-            else if (info1 == convertToTypeinfo(varType_e::BOOLARR) && info3 == convertToTypeinfo(varType_e::BOOL))
-            {
-                that->myParams[1].realArg->val._boolArr[index] = that->myParams[3].realArg->val._bool;
-            }
-            else
-            {
-                std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
-            }
+            // std::cout << "prev: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
+            that->myParams[0].realArg->val._int = that->myParams[1].realArg->val._intArr[index];
+            // std::cout << "post: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
         }
-        if (that->myParams[0].realArg)
+        else if (info1 == convertToTypeinfo(varType_e::DOUBLEARR) && info0 == convertToTypeinfo(varType_e::DOUBLE))
         {
-            if (info1 == convertToTypeinfo(varType_e::INTARR) && info0 == convertToTypeinfo(varType_e::INT))
-            {
-                // std::cout << "prev: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
-                that->myParams[0].realArg->val._int = that->myParams[1].realArg->val._intArr[index];
-                // std::cout << "post: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
-            }
-            else if (info1 == convertToTypeinfo(varType_e::DOUBLEARR) && info0 == convertToTypeinfo(varType_e::DOUBLE))
-            {
-                that->myParams[0].realArg->val._double = that->myParams[1].realArg->val._doubleArr[index];
-            }
-            else if (info1 == convertToTypeinfo(varType_e::BOOLARR) && info0 == convertToTypeinfo(varType_e::BOOL))
-            {
-                that->myParams[0].realArg->val._bool = that->myParams[1].realArg->val._boolArr[index];
-            }
-            else
-            {
-                std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
-            }
+            that->myParams[0].realArg->val._double = that->myParams[1].realArg->val._doubleArr[index];
+        }
+        else if (info1 == convertToTypeinfo(varType_e::BOOLARR) && info0 == convertToTypeinfo(varType_e::BOOL))
+        {
+            that->myParams[0].realArg->val._bool = that->myParams[1].realArg->val._boolArr[index];
+        }
+        else
+        {
+            std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << ": uninitialized real arg" << std::endl;
+    }
+}
+
+void ForSubsSetBlock::operator()(Func_Block *that)
+{
+    if (that && that->numOfParams != 3)
+    {
+        std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
+        return;
+    }
+    if (that && that->myParams && that->myParams[1].realArg && that->myParams[2].realArg && that->myParams[0].realArg)
+    {
+        std::type_info const &info1 {typeid(*(that->myParams[0].realArg))};
+        std::type_info const &info0 {typeid(*(that->myParams[2].realArg))};
+        int index {that->myParams[1].realArg->val._int};
+        if (info1 == convertToTypeinfo(varType_e::INTARR) && info0 == convertToTypeinfo(varType_e::INT))
+        {
+            // std::cout << "prev: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
+             that->myParams[0].realArg->val._intArr[index] = that->myParams[2].realArg->val._int;
+            // std::cout << "post: " << that->myParams[0].realArg->val._int << " = " << that->myParams[1].realArg->val._intArr[index] << std::endl;
+        }
+        else if (info1 == convertToTypeinfo(varType_e::DOUBLEARR) && info0 == convertToTypeinfo(varType_e::DOUBLE))
+        {
+             that->myParams[0].realArg->val._doubleArr[index] = that->myParams[2].realArg->val._double;
+        }
+        else if (info1 == convertToTypeinfo(varType_e::BOOLARR) && info0 == convertToTypeinfo(varType_e::BOOL))
+        {
+             that->myParams[0].realArg->val._boolArr[index] = that->myParams[2].realArg->val._bool;
+        }
+        else
+        {
+            std::cerr << "built_in func ptr wrong at " << __PRETTY_FUNCTION__ << std::endl;
         }
     }
     else
@@ -471,7 +491,8 @@ Func_Block plusBlock {"BUILT_IN_PLUS", 3, &forBuiltInPlus};
 Func_Block minusBlock {"BUILT_IN_MINUS", 3, &forBuiltInMinus};
 Func_Block divisionBlock {"BUILT_IN_DIVISION", 3, &forBuiltInDivision};
 Func_Block multiplicationBlock {"BUILT_IN_MULTIPLICATION", 3, &forBuiltInMultiplication};
-Func_Block subsBlock {"BUILT_IN_SUBS", 4, &forBuiltInSubs};
+Func_Block subsBlock_get {"BUILT_IN_SUBSGET", 3, &forBuiltInSubsGet};
+Func_Block subsBlock_set {"BUILT_IN_SUBSSET", 3, &forBuiltInSubsSet};
 Func_Block assignmentBlock {"BUILT_IN_ASSIGNMENT", 2, &forBuiltInAssignment};
 Func_Block andBlock {"BUILT_IN_AND", 3, &forBuiltInAnd};
 Func_Block notBlock {"BUILT_IN_NOT", 3, &forBuiltInNot};
@@ -509,10 +530,13 @@ void builtInOperatorsInit()
     multiplicationBlock.setParamType(varType_e::NUMTYPE, 1);
     multiplicationBlock.setParamType(varType_e::NUMTYPE, 2);
 
-    subsBlock.setParamType(varType_e::NONARRTYPE, 0);
-    subsBlock.setParamType(varType_e::ARRTYPE, 1);
-    subsBlock.setParamType(varType_e::INT, 2);
-    subsBlock.setParamType(varType_e::NONARRTYPE, 3);
+    subsBlock_get.setParamType(varType_e::NONARRTYPE, 0);
+    subsBlock_get.setParamType(varType_e::ARRTYPE, 1);
+    subsBlock_get.setParamType(varType_e::INT, 2);
+
+    subsBlock_get.setParamType(varType_e::ARRTYPE, 0);
+    subsBlock_get.setParamType(varType_e::INT, 1);
+    subsBlock_get.setParamType(varType_e::NONARRTYPE, 2);
 
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 0);
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 1);

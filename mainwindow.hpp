@@ -26,7 +26,6 @@ public:
 private slots:
     void on_runButton_clicked();
     void on_clearButton_clicked();
-    void on_saveButton_clicked();
     void when_runWindow_closed();
     void on_andButton_clicked();
     void on_assignmentButton_clicked();
@@ -45,7 +44,8 @@ private slots:
     void on_printButton_clicked();
     void on_smallerThanButton_clicked();
 //    void on_startButton_clicked();
-    void on_takeIndButton_clicked();
+    void on_takeIndSetButton_clicked();
+    void on_takeIndGetButton_clicked();
     void on_varDefButton_clicked();
     void on_whileButton_clicked();
 
