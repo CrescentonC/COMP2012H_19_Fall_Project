@@ -139,6 +139,8 @@ class Var_Block: public Block
                 }
             }
         }
+
+        unsigned int getSize(){return _size;}
 };
 
 } // namespace WriteBackend

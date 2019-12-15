@@ -32,9 +32,7 @@ private slots:
     void on_assignmentButton_clicked();
     void on_biggerThanButton_clicked();
     void on_divisionButton_clicked();
-//    void on_endButton_clicked();
     void on_equalButton_clicked();
-//    void on_forButton_clicked();
     void on_funcDefButton_clicked();
     void on_ifButton_clicked();
     void on_minusButton_clicked();
@@ -44,11 +42,15 @@ private slots:
     void on_plusButton_clicked();
     void on_printButton_clicked();
     void on_smallerThanButton_clicked();
-//    void on_startButton_clicked();
+    void on_startButton_clicked();
     void on_takeIndSetButton_clicked();
     void on_takeIndGetButton_clicked();
     void on_varDefButton_clicked();
     void on_whileButton_clicked();
+
+    void eraseBlock(std::string deleteName);
+    void hideAllFlowBlk();
+    void retrieveAllFlowBlk();
 
 private:
     Ui::MainWindow *ui;
