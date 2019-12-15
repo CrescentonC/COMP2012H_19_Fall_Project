@@ -76,6 +76,7 @@ public:
     void setSource1(Block* source1){operand_source1 = source1;}
     void setSource2(Block* source2){operand_source2 = source2;}
     void setDestination(Block* destination){operand_destination = destination;}
+    void setMother(Block* mother){motherFunc = mother;}
     bool currentBlockVerify(void);  //verify whether correct ammount of operands
 
 private:
@@ -86,7 +87,7 @@ private:
     Block* operand_source2{nullptr};
     Block* operand_destination{nullptr};
 //    void* operand_destination2{nullptr};    //only for "IF" second block
-    Block* motherFunc{nullptr};    //under which function (eg main)
+    Block* motherFunc{nullptr};    //under which function (eg main) also known as motherVar
     QPoint block_position{0,0};    //for easier re-draw
     bool movable{true};            // those definition shouldn't move
 };

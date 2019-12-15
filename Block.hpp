@@ -59,6 +59,8 @@ enum varType_e
     NONARRTYPE = -6,
 };
 
+//extern std::map<std::string, varType_e> varTypeMap;
+
 union _Data_t
 {
     public:

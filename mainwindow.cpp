@@ -209,24 +209,96 @@ void MainWindow::on_whileButton_clicked()
 /////////////////////////////////////////////////
 void MainWindow::on_funcDefButton_clicked()
 {
-    std::string thisName = getAvailName("func_def");
-    Visible_Block *blk = new Visible_Block(thisName, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    QString inputText = QInputDialog::getText(this, "function definition", "function name", QLineEdit::Normal, "FUNC2333");
+    std::string thisName = inputText.toStdString();
+    int paramNum = QInputDialog::getInt(this, "function definition", "parameter ammount:",0,0);
+    func_pool[thisName] = new Func_Block(thisName, static_cast<unsigned int>(paramNum));
+
+
+    for(int i = 0; i < paramNum; i++)
+    {
+        inputText = QInputDialog::getText(this, "function definition",
+                                          QString::number(i) + "-th param type:\n(bool, int, double, bool*, int*, double*",
+                                          QLineEdit::Normal, "bool");
+        std::string thistype = inputText.toStdString();
+        if(thistype == "bool") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(BOOL,i);
+        else if(thistype == "int") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(INT,i);
+        else if(thistype == "double") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(DOUBLE,i);
+        else if(thistype == "bool*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(BOOLARR,i);
+        else if(thistype == "int*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(INTARR,i);
+        else if(thistype == "double*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(DOUBLEARR,i);
+    }
+
+    Visible_Block *blk = new Visible_Block(thisName, USER_FUNC, func_pool[thisName], ui->showDefinedArea_content, false);
     blk->setMinimumSize(150, 50);
     ui->showDefinedArea_content_layout->addWidget(blk);
-    (*visible_block_pool)[thisName] = blk;
+    visible_func_pool[thisName] = blk;
 }
 
 void MainWindow::on_varDefButton_clicked()
 {
-    bool ok = false;
-    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "2333", &ok);
+    // =========================== get name and type(format:str) ==============================
+    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "VAR2333");
     std::string thisName = inputText.toStdString();
-//    ok = false;
+    inputText = QInputDialog::getText(this, "variable definition", "varible type:\n(bool, int, double, bool*, int*, double*",
+                                      QLineEdit::Normal, "bool");
+    std::string thisType = inputText.toStdString();
+    // =========================== get name and type(format:str) ==============================
 
-    Visible_Block *blk = new Visible_Block(thisName, USER_VAR, func_pool[currentFunc], ui->showDefinedArea_content, false);
+    // =========================== for distribute variable type ===============================
+    if(thisType == "bool")
+    {
+        bool inputValue = QInputDialog::getInt(this, "variable definition", "varible value:",0,0,1);
+        var_pool[thisName] = new Var_Block<bool>(thisName, inputValue);
+    }
+    else if(thisType == "int")
+    {
+        int inputValue = QInputDialog::getInt(this, "variable definition", "varible value:",0);
+        var_pool[thisName] = new Var_Block<int>(thisName, inputValue);
+    }
+    else if(thisType == "double")
+    {
+        double inputValue = QInputDialog::getDouble(this, "variable definition", "varible value:",0);
+        var_pool[thisName] = new Var_Block<double>(thisName, inputValue);
+    }
+    else if(thisType == "bool*")
+    {
+        int arrLenth = QInputDialog::getInt(this, "variable definition", "array length:",2,2);
+        var_pool[thisName] = new Var_Block<bool*>(thisName, nullptr, static_cast<unsigned int>(arrLenth));
+        for(int i = 0; i < arrLenth; i++)
+        {
+            bool inputValue = QInputDialog::getInt(this, "variable definition", "varible value:",0,0,1);
+            reinterpret_cast<Var_Block<bool*>*>(var_pool[thisName])->set_value(inputValue, i);
+        }
+    }
+    else if(thisType == "int*")
+    {
+        int arrLenth = QInputDialog::getInt(this, "variable definition", "array length:",2,2);
+        var_pool[thisName] = new Var_Block<int*>(thisName, nullptr, static_cast<unsigned int>(arrLenth));
+        for(int i = 0; i < arrLenth; i++)
+        {
+            int inputValue = QInputDialog::getInt(this, "variable definition", "varible value:",0);
+            reinterpret_cast<Var_Block<int*>*>(var_pool[thisName])->set_value(inputValue, i);
+        }
+    }
+    else if(thisType == "double*")
+    {
+        int arrLenth = QInputDialog::getInt(this, "variable definition", "array length:",2,2);
+        var_pool[thisName] = new Var_Block<double*>(thisName, nullptr, static_cast<unsigned int>(arrLenth));
+        for(int i = 0; i < arrLenth; i++)
+        {
+            double inputValue = QInputDialog::getDouble(this, "variable definition", "varible value:",0);
+            reinterpret_cast<Var_Block<double*>*>(var_pool[thisName])->set_value(inputValue, i);
+        }
+    }
+    // =========================== for distribute variable type ===============================
+
+    // =========================== display out on the display area ============================
+    Visible_Block *blk = new Visible_Block(thisName, USER_VAR, var_pool[thisName], ui->showDefinedArea_content, false);
+
     blk->setMinimumSize(150, 50);
     ui->showDefinedArea_content_layout->addWidget(blk);
-    (*visible_block_pool)[thisName] = blk;
+    visible_var_pool[thisName] = blk;
 }
 /////////////////////////////////////////////////
 
