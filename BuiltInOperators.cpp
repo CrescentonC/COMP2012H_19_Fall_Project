@@ -534,9 +534,9 @@ void builtInOperatorsInit()
     subsBlock_get.setParamType(varType_e::ARRTYPE, 1);
     subsBlock_get.setParamType(varType_e::INT, 2);
 
-    subsBlock_get.setParamType(varType_e::ARRTYPE, 0);
-    subsBlock_get.setParamType(varType_e::INT, 1);
-    subsBlock_get.setParamType(varType_e::NONARRTYPE, 2);
+    subsBlock_set.setParamType(varType_e::ARRTYPE, 0);
+    subsBlock_set.setParamType(varType_e::INT, 1);
+    subsBlock_set.setParamType(varType_e::NONARRTYPE, 2);
 
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 0);
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 1);
