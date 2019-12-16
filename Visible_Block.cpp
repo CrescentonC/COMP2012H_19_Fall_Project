@@ -111,6 +111,18 @@ void Visible_Block::ShowContextMenu(const QPoint& pos)
         myMenu.addAction(tr("Edit Function"), this, SLOT(editFunc()));
     }
 
+    else if(block_type == Visible_Block_type::USER_FUNC && movable)
+    {
+//        std::vector<std::string>::iterator paramTypeIter = funcParamTypeInfo.begin();
+//        for(int i = 0; i < userFuncOperandsNum; i++)
+//        {
+//            myMenu.addAction("Operand"+QString::number(i)+"("+QString::fromStdString(*paramTypeIter)+")",
+//                             this, SLOT(setUserFuncOperands()));
+//            paramTypeIter++;
+//        }
+        myMenu.addAction("Operand Modify", this, SLOT(setUserFuncOperands()));
+    }
+
     myMenu.exec(mapToGlobal(pos));
 }
 
@@ -118,6 +130,16 @@ void Visible_Block::showDetails()
 {
     currentBlockVerify();
     details = "block name: " + name + "\nMother: " + motherFunc->name;
+    if(block_type == USER_FUNC)
+    {
+        details += "\nparam typeInfo: ";
+        for(std::vector<std::string>::iterator paramTypeIter = funcParamTypeInfo.begin();
+            paramTypeIter != funcParamTypeInfo.end();
+            paramTypeIter++)
+        {
+            details += *paramTypeIter + " ";
+        }
+    }
     if(block_type != USER_VAR) details += "\nVerify Info" + verifyInfo;
     else
     {
@@ -283,6 +305,47 @@ void Visible_Block::setSubFunc2()
     currentBlockVerify();
 }
 
+void Visible_Block::setUserFuncOperands(int pos)
+{
+    //=============================== get postion =======================================
+    if(pos < 0)
+    {
+        pos = QInputDialog::getInt(this, "Set Operands", "Operands position(start from 0):",0, 0);
+    }
+    //=============================== get postion =======================================
+
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+    if(userFuncOperands.empty())
+    {
+        for(int i = 0; i < userFuncOperandsNum; i++)
+            userFuncOperands.push_back(nullptr);
+    }
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+
+    std::vector<Block*>::iterator operIter = userFuncOperands.begin() + pos;
+
+    QString inputText = QInputDialog::getText(this, "Set Operands", "Setting Operand #" + QString::number(pos),
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        // replace the origin operand with the new operand
+        std::replace(operIter, operIter+1, *operIter, var_pool[inputName]);
+    }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n" +
+                                                      "Setting Operand #" + std::to_string(pos) + " unchanged"));
+        warningBox.exec();
+    }
+    userFuncOperands.shrink_to_fit();
+    currentBlockVerify();
+}
+
 void Visible_Block::editFunc()
 {
     emit user_func_edit(name);
@@ -350,6 +413,20 @@ bool Visible_Block::currentBlockVerify()
         }
     }
 
+    else if(block_type == Visible_Block_type::USER_FUNC && movable)
+    {
+        std::vector<Block*>::iterator operIter = userFuncOperands.begin();
+        for(int i = 0; i < userFuncOperandsNum; i++)
+        {
+            if(*operIter == nullptr)
+            {
+                info_wrong += "\nlack "+std::to_string(i)+"-th operand";
+                status = false;
+            }
+            operIter++;
+        }
+    }
+
 
     if(status == false)
     {
@@ -363,5 +440,4 @@ bool Visible_Block::currentBlockVerify()
         setStyleSheet("background-color : white");
         return true;
     }
-    return false; //will not reach here
 }

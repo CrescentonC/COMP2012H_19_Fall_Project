@@ -5,6 +5,7 @@
 #include "VarFunManager.hpp"
 #include "QInputDialog"
 #include "ui_runwindow.h"
+#include "QDebug"
 
 using namespace WriteBackend;
 using namespace dataStorage;
@@ -96,9 +97,7 @@ void MainWindow::on_andButton_clicked()
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
     blk->setSource1();
     blk->setSource2();
-    blk->setDestination();/*
-    if(blk->currentBlockVerify()) blk->setStyleSheet("background-color : white");
-    else blk->setStyleSheet("background-color : #e34646")*/
+    blk->setDestination();
     blk->currentBlockVerify();
 }
 
@@ -109,6 +108,9 @@ void MainWindow::on_assignmentButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_divisionButton_clicked()
@@ -118,6 +120,10 @@ void MainWindow::on_divisionButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_biggerThanButton_clicked()
@@ -127,6 +133,10 @@ void MainWindow::on_biggerThanButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_equalButton_clicked()
@@ -136,6 +146,10 @@ void MainWindow::on_equalButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_ifButton_clicked()
@@ -145,6 +159,9 @@ void MainWindow::on_ifButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSubFunc1();
+    blk->setSubFunc2();
 }
 
 void MainWindow::on_minusButton_clicked()
@@ -154,6 +171,10 @@ void MainWindow::on_minusButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_multiplyButton_clicked()
@@ -163,6 +184,10 @@ void MainWindow::on_multiplyButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_notButton_clicked()
@@ -172,6 +197,9 @@ void MainWindow::on_notButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_orButton_clicked()
@@ -181,6 +209,10 @@ void MainWindow::on_orButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_plusButton_clicked()
@@ -190,6 +222,10 @@ void MainWindow::on_plusButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_printButton_clicked()
@@ -208,6 +244,10 @@ void MainWindow::on_smallerThanButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_startButton_clicked()
@@ -226,6 +266,10 @@ void MainWindow::on_takeIndSetButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();  //things to set into
+    blk->setDestination(); // array
+    blk->setArrInd();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_takeIndGetButton_clicked()
@@ -235,6 +279,10 @@ void MainWindow::on_takeIndGetButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();  //array
+    blk->setArrInd();
+    blk->setDestination();  //receiver
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_whileButton_clicked()
@@ -244,6 +292,9 @@ void MainWindow::on_whileButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSubFunc1();
+    blk->currentBlockVerify();
 }
 
 
@@ -255,6 +306,11 @@ void MainWindow::on_funcDefButton_clicked()
     int paramNum = QInputDialog::getInt(this, "function definition", "parameter ammount:",0,0);
     func_pool[thisName] = new Func_Block(thisName, static_cast<unsigned int>(paramNum));
 
+    Visible_Block *blk = new Visible_Block(thisName, USER_FUNC, func_pool[thisName], ui->showDefinedArea_content, false);
+    blk->setMinimumSize(150, 50);
+    ui->showDefinedArea_content_layout->addWidget(blk);
+    visible_func_pool[thisName] = blk;
+    blk->setUserFuncOperandsNum(paramNum);
 
     for(int i = 0; i < paramNum; i++)
     {
@@ -268,12 +324,9 @@ void MainWindow::on_funcDefButton_clicked()
         else if(thistype == "bool*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(BOOLARR,i);
         else if(thistype == "int*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(INTARR,i);
         else if(thistype == "double*") reinterpret_cast<Func_Block*>(func_pool[thisName])->setParamType(DOUBLEARR,i);
+        blk->insertFuncParamTypeInfo(thistype);
     }
 
-    Visible_Block *blk = new Visible_Block(thisName, USER_FUNC, func_pool[thisName], ui->showDefinedArea_content, false);
-    blk->setMinimumSize(150, 50);
-    ui->showDefinedArea_content_layout->addWidget(blk);
-    visible_func_pool[thisName] = blk;
     correspond_pool[func_pool[thisName]] = new std::map<std::string, Visible_Block*>;
     connect(blk, &Visible_Block::user_func_clicked, this, &MainWindow::add_user_func_blk);
     connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
@@ -378,6 +431,13 @@ void MainWindow::add_user_func_blk(std::string addFuncName)
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::USER_FUNC, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    blk->setUserFuncOperandsNum(visible_func_pool[addFuncName]->getUserFuncOperandsNum());
+    blk->copyFuncParamTypeInfo(visible_func_pool[addFuncName]->getFuncParamTypeInfo());
+    for(int i = 0; i < blk->getUserFuncOperandsNum(); i++)
+    {
+        blk->setUserFuncOperands(i);
+    }
+    blk->currentBlockVerify();
 }
 
 void MainWindow::switch_user_func(std::string targetFuncName)
