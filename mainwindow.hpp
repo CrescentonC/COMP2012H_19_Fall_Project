@@ -52,6 +52,8 @@ private slots:
     void eraseBlock(std::string deleteName);
     void hideAllFlowBlk();
     void retrieveAllFlowBlk();
+    void add_user_func_blk(std::string addFuncName);
+    void switch_user_func(std::string targetFuncName);
 
 private:
     Ui::MainWindow *ui;

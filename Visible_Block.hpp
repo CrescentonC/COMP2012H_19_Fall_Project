@@ -42,14 +42,16 @@ protected slots:
     bool eventFilter(QObject *, QEvent *event) override;
     void ShowContextMenu(const QPoint& pos);
     void deleteBlock();
+    void editFunc();
+    virtual void showDetails(); //show belong to which function
+
+public slots:
     void setSource1();
     void setSource2();
     void setDestination();
     void setArrInd();
     void setSubFunc1();
     void setSubFunc2();
-    void editFunc();
-    virtual void showDetails(); //show belong to which function
 
 signals:
     void visible_block_delete(std::string);
@@ -79,14 +81,14 @@ public:
         setFont(QFont("Comic Sans MS", 10, QFont::Bold));
         setBlockText(name);
     }
-    void setDetails(std::string detail){details = detail;}
+//    void setDetails(std::string detail){details = detail;}
     void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
-    void setMother(Block* mother){motherFunc = mother;}
     bool currentBlockVerify(void);  //verify whether correct ammount of operands
 
 private:
     std::string name;
     std::string details;            //context menu show details (default is block name + motherFunc name )
+    std::string verifyInfo;
     Visible_Block_type block_type;
 
     Block* operand_source1{nullptr};

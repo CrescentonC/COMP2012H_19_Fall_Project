@@ -5,6 +5,7 @@
 #include "QInputDialog"
 #include "dataStorage.hpp"
 #include <typeinfo>
+#include "QDebug"
 
 using namespace dataStorage;
 
@@ -105,7 +106,7 @@ void Visible_Block::ShowContextMenu(const QPoint& pos)
         myMenu.addAction(tr("Loop Func"),this, SLOT(setSubFunc1()));
     }
 
-    else if(block_type == Visible_Block_type::USER_FUNC)
+    else if(block_type == Visible_Block_type::USER_FUNC && !movable)
     {
         myMenu.addAction(tr("Edit Function"), this, SLOT(editFunc()));
     }
@@ -115,7 +116,20 @@ void Visible_Block::ShowContextMenu(const QPoint& pos)
 
 void Visible_Block::showDetails()
 {
-    qDebug()<<"base block show details" << endl;
+    currentBlockVerify();
+    details = "block name: " + name + "\nMother: " + motherFunc->name;
+    if(block_type != USER_VAR) details += "\nVerify Info" + verifyInfo;
+    else
+    {
+        std::string typeName;
+        if(typeid(*motherFunc) == typeid(Var_Block<bool>)) typeName = "bool";
+        else if(typeid(*motherFunc) == typeid(Var_Block<int>)) typeName = "int";
+        else if(typeid(*motherFunc) == typeid(Var_Block<double>)) typeName = "double";
+        else if(typeid(*motherFunc) == typeid(Var_Block<bool*>)) typeName = "bool arr";
+        else if(typeid(*motherFunc) == typeid(Var_Block<int*>)) typeName = "int arr";
+        else if(typeid(*motherFunc) == typeid(Var_Block<double*>)) typeName = "double arr";
+        details += "\nVar type : " + typeName;
+    }
     QMessageBox showDetailsBox(QMessageBox::Information, "showDetails",QString::fromStdString(details));
     showDetailsBox.exec();
 }
@@ -129,7 +143,7 @@ void Visible_Block::deleteBlock()
 
 void Visible_Block::setSource1()
 {
-    QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
+    QString inputText = QInputDialog::getText(this, "Source1", "source1 variable name",
                                               QLineEdit::Normal, "VAR2333");
     std::string inputName = inputText.toStdString();
 
@@ -139,11 +153,18 @@ void Visible_Block::setSource1()
     {
         operand_source1 = var_pool[inputName];
     }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\nsource 1 unchanged"));
+        warningBox.exec();
+    }
+    currentBlockVerify();
 }
 
 void Visible_Block::setSource2()
 {
-    QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
+    QString inputText = QInputDialog::getText(this, "Source2", "source2 variable name",
                                               QLineEdit::Normal, "VAR2333");
     std::string inputName = inputText.toStdString();
 
@@ -153,6 +174,13 @@ void Visible_Block::setSource2()
     {
         operand_source2 = var_pool[inputName];
     }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\nsource 2 unchanged"));
+        warningBox.exec();
+    }
+    currentBlockVerify();
 }
 
 void Visible_Block::setDestination()
@@ -167,6 +195,13 @@ void Visible_Block::setDestination()
     {
         operand_destination = var_pool[inputName];
     }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n Destination unchanged"));
+        warningBox.exec();
+    }
+    currentBlockVerify();
 }
 
 void Visible_Block::setArrInd()
@@ -196,6 +231,14 @@ void Visible_Block::setArrInd()
             }
         }
     }
+    if(arrIndex != inputValue)
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(std::to_string(inputValue) + " is invalid,\narray index unchanged"));
+        warningBox.exec();
+    }
+
+    currentBlockVerify();
 }
 
 void Visible_Block::setSubFunc1()
@@ -210,6 +253,13 @@ void Visible_Block::setSubFunc1()
     {
         subFunction1 = func_pool[inputName];
     }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n subFunction1 unchanged"));
+        warningBox.exec();
+    }
+    currentBlockVerify();
 }
 
 void Visible_Block::setSubFunc2()
@@ -224,6 +274,13 @@ void Visible_Block::setSubFunc2()
     {
         subFunction2 = func_pool[inputName];
     }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n subFunction2 unchanged"));
+        warningBox.exec();
+    }
+    currentBlockVerify();
 }
 
 void Visible_Block::editFunc()
@@ -233,9 +290,9 @@ void Visible_Block::editFunc()
 
 bool Visible_Block::currentBlockVerify()
 {
-    std::string info_wrong = "\nlack second source operand";
+    std::string info_wrong = "\nlack components:";
     std::string info_right = "\nverify ok";
-    bool status = false;
+    bool status = true;
     if(block_type == Visible_Block_type::AND ||
             block_type == Visible_Block_type::BIGGERTHAN ||
             block_type == Visible_Block_type::DIVISION ||
@@ -250,14 +307,19 @@ bool Visible_Block::currentBlockVerify()
                 operand_source2 == nullptr ||
                 operand_destination == nullptr)
             status = false;
+        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
+        if(operand_source2 == nullptr) info_wrong += "\nlack Operand 2";
+        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
     }
 
     else if(block_type == Visible_Block_type::ASSIGNMENT ||
             block_type == Visible_Block_type::NOT)
     {
         if(operand_source1 == nullptr ||
-           operand_source2 == nullptr)
+           operand_destination == nullptr)
         status = false;
+        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
+        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
     }
 
     else if(block_type == Visible_Block_type::TAKEINDGET ||
@@ -267,33 +329,39 @@ bool Visible_Block::currentBlockVerify()
            arrIndex == -1 ||
            operand_destination == nullptr)
         status = false;
+        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
+        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
+        if(arrIndex == -1) info_wrong += "\n lack arrIndex";
     }
 
     else if(block_type == Visible_Block_type::IF||
             block_type == Visible_Block_type::WHILE)
     {
         if(operand_source1 == nullptr || subFunction1 == nullptr)
+        {
             status = false;
+            if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
+            if(subFunction1 == nullptr) info_wrong += "\nlack subFunction 1";
+        }
         if(block_type == Visible_Block_type::IF && subFunction2 == nullptr)
+        {
             status = false;
+            if(subFunction2 == nullptr) info_wrong += "\nlack subFunction 2";
+        }
     }
 
 
     if(status == false)
     {
-        details += info_wrong;
-        setStyleSheet("background-color : red");
+        verifyInfo = info_wrong;
+        setStyleSheet("background-color : #e34646");
         return false;
     }
     else
     {
-        if(details.find("\nlack second source operand"))
-        {
-            details = details.substr(0, details.size()-info_wrong.size());
-            details += info_right;
-            setStyleSheet("background-color : white");
-            return true;
-        }
+        verifyInfo = info_right;
+        setStyleSheet("background-color : white");
+        return true;
     }
     return false; //will not reach here
 }

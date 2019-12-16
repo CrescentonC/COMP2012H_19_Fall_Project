@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(runWindow, &RunWindow::runWindowClosed_signal, this, &MainWindow::when_runWindow_closed);
 
-    // init main function
+    //=================== init main function =========================================
     currentFunc = "main";
     func_pool["main"] = new Func_Block("main", 0);
     Visible_Block *blk = new Visible_Block(currentFunc, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_block_pool = new std::map<std::string, Visible_Block*>;
     correspond_pool[func_pool[currentFunc]] = visible_block_pool;
+    connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
+    visible_func_pool[currentFunc]->setStyleSheet("background-color : #375291");
 
     // ================= for setting up the logic wire push button ====================
     QPushButton *logicWire = new QPushButton {ui->canvas_area};
@@ -90,6 +92,12 @@ void MainWindow::on_andButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->setSource2();
+    blk->setDestination();/*
+    if(blk->currentBlockVerify()) blk->setStyleSheet("background-color : white");
+    else blk->setStyleSheet("background-color : #e34646")*/
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_assignmentButton_clicked()
@@ -98,6 +106,7 @@ void MainWindow::on_assignmentButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, ASSIGNMENT, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_divisionButton_clicked()
@@ -106,6 +115,7 @@ void MainWindow::on_divisionButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, DIVISION, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_biggerThanButton_clicked()
@@ -114,6 +124,7 @@ void MainWindow::on_biggerThanButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, BIGGERTHAN, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_equalButton_clicked()
@@ -122,6 +133,7 @@ void MainWindow::on_equalButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, EQUALCOMPARE, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_ifButton_clicked()
@@ -130,6 +142,7 @@ void MainWindow::on_ifButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_minusButton_clicked()
@@ -138,6 +151,7 @@ void MainWindow::on_minusButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, MINUS, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_multiplyButton_clicked()
@@ -146,6 +160,7 @@ void MainWindow::on_multiplyButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, MULTIPLY, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_notButton_clicked()
@@ -154,6 +169,7 @@ void MainWindow::on_notButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, NOT, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_orButton_clicked()
@@ -162,6 +178,7 @@ void MainWindow::on_orButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, OR, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_plusButton_clicked()
@@ -170,6 +187,7 @@ void MainWindow::on_plusButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, PLUS, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_printButton_clicked()
@@ -178,6 +196,7 @@ void MainWindow::on_printButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, PRINT, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_smallerThanButton_clicked()
@@ -186,6 +205,7 @@ void MainWindow::on_smallerThanButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, SMALLERTHAN, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_startButton_clicked()
@@ -194,6 +214,7 @@ void MainWindow::on_startButton_clicked()
     Visible_Block *blk = new Visible_Block("start", START, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_takeIndSetButton_clicked()
@@ -202,6 +223,7 @@ void MainWindow::on_takeIndSetButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, TAKEINDSET, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_takeIndGetButton_clicked()
@@ -210,6 +232,7 @@ void MainWindow::on_takeIndGetButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, TAKEINDGET, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_whileButton_clicked()
@@ -218,6 +241,7 @@ void MainWindow::on_whileButton_clicked()
     Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::WHILE, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 
@@ -249,6 +273,8 @@ void MainWindow::on_funcDefButton_clicked()
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_func_pool[thisName] = blk;
     correspond_pool[func_pool[thisName]] = new std::map<std::string, Visible_Block*>;
+    connect(blk, &Visible_Block::user_func_clicked, this, &MainWindow::add_user_func_blk);
+    connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
 }
 
 void MainWindow::on_varDefButton_clicked()
@@ -337,11 +363,29 @@ void MainWindow::hideAllFlowBlk()
 void MainWindow::retrieveAllFlowBlk()
 {
     std::map<std::string, Visible_Block*>::iterator iter;
+    if(visible_block_pool->empty()) return;
     for(iter = visible_block_pool->begin(); iter != visible_block_pool->end(); ++iter)
     {
         iter->second->setVisible(true);
     }
 }
 
+void MainWindow::add_user_func_blk(std::string addFuncName)
+{
+    std::string thisName = getAvailName(addFuncName);
+    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::USER_FUNC, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
+    (*visible_block_pool)[thisName] = blk;
+}
 
+void MainWindow::switch_user_func(std::string targetFuncName)
+{
+//    qDebug() << QString::fromStdString(targetFuncName);
+    visible_func_pool[currentFunc]->setStyleSheet("background-color : white");
+    hideAllFlowBlk();
+    currentFunc = targetFuncName;
+    visible_block_pool = correspond_pool[func_pool[currentFunc]];
+    visible_func_pool[currentFunc]->setStyleSheet("background-color : #375291");
+    retrieveAllFlowBlk();
+}
 
