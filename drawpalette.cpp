@@ -1,11 +1,15 @@
 #include "drawpalette.h"
 #include "logicline.h"
 
-static std::vector<LogicLine*> linePool;
+static std::vector<LogicLine*> *linePool {nullptr}; // current pool correspond to the current funciton name in canvas
+
+static std::vector<LogicLine*> llll;
+
+void setCurrentLinePool(std::vector<LogicLine*> *ptr) { linePool = ptr; }
 
 void checkAllLineInPool()
 {
-    for (auto i : linePool)
+    for (auto i : *linePool)
     {
         i->checkConnection();
     }
@@ -13,10 +17,10 @@ void checkAllLineInPool()
 
 bool removeLine(LogicLine *l)
 {
-    auto i {std::find(linePool.begin(), linePool.end(), l)};
-    if (i != linePool.end())
+    auto i {std::find(linePool->begin(), linePool->end(), l)};
+    if (i != linePool->end())
     {
-        linePool.erase(i);
+        linePool->erase(i);
         (*i)->deleteLater();
         return true;
     }
@@ -46,7 +50,7 @@ bool DrawPalette::eventFilter(QObject *, QEvent *event)
                 isPainting = false;
 
                 LogicLine *l {new LogicLine {parentWidget(), startPoint, currentPoint}};
-                linePool.push_back(l);
+                linePool->push_back(l);
 
                 myToggleButton->toggle();
                 setVisible(false);

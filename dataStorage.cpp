@@ -12,6 +12,4 @@ std::map<std::string, WriteBackend::Block*> var_pool;
 std::map<std::string, Visible_Block*> visible_var_pool;
 
 std::map<WriteBackend::Block*, std::map<std::string, Visible_Block*>*> correspond_pool;
-
-std::map<std::string, std::vector<LogicLine*>*> linePool;
 }

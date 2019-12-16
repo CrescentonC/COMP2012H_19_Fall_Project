@@ -100,7 +100,7 @@ public:
         setAlignment(Qt::AlignCenter);
         setFont(QFont("Comic Sans MS", 10, QFont::Bold));
         setBlockText(name);
-        checkAllLineInPool();
+        // checkAllLineInPool();
     }
 
     std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}

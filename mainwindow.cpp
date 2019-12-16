@@ -8,6 +8,7 @@
 #include "QDebug"
 #include "Interpreter.hpp"
 #include "logicline.h"
+#include "drawpalette.h"
 
 using namespace WriteBackend;
 using namespace dataStorage;
@@ -26,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     Visible_Block *blk = new Visible_Block(currentFunc, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
     blk->setMinimumSize(150, 50);
     visible_func_pool[currentFunc] = blk;
+
+    visibleLine_pool[currentFunc] = new std::vector<LogicLine*>;
+    setCurrentLinePool(visibleLine_pool[currentFunc]);
+
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_block_pool = new std::map<std::string, Visible_Block*>;
     correspond_pool[func_pool[currentFunc]] = visible_block_pool;
@@ -316,6 +321,7 @@ void MainWindow::on_funcDefButton_clicked()
     }
 
     correspond_pool[func_pool[thisName]] = new std::map<std::string, Visible_Block*>;
+    visibleLine_pool[thisName] = new std::vector<LogicLine*>;
     connect(blk, &Visible_Block::user_func_clicked, this, &MainWindow::add_user_func_blk);
     connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
@@ -415,8 +421,11 @@ void MainWindow::hideAllFlowBlk()
 
 void MainWindow::hideAllLine()
 {
-    std::map<std::string, LogicLine*>::iterator iter;
-    for (iter = dataStorage::linePool.begin(); )
+    std::vector<LogicLine*>::iterator iter;
+    for (iter = visibleLine_pool[currentFunc]->begin(); iter != visibleLine_pool[currentFunc]->end(); ++iter)
+    {
+        (*iter)->setVisible(false);
+    }
 }
 
 void MainWindow::retrieveAllFlowBlk()
@@ -431,7 +440,11 @@ void MainWindow::retrieveAllFlowBlk()
 
 void MainWindow::retrieveAllLine()
 {
-
+    std::vector<LogicLine*>::iterator iter;
+    for (iter = visibleLine_pool[currentFunc]->begin(); iter != visibleLine_pool[currentFunc]->end(); ++iter)
+    {
+        (*iter)->setVisible(true);
+    }
 }
 
 void MainWindow::add_user_func_blk(std::string addFuncName)
@@ -505,10 +518,12 @@ void MainWindow::switch_user_func(std::string targetFuncName)
 //    qDebug() << QString::fromStdString(targetFuncName);
     visible_func_pool[currentFunc]->setStyleSheet("background-color : white");
     hideAllFlowBlk();
-
+    hideAllLine();
     currentFunc = targetFuncName;
     visible_block_pool = correspond_pool[func_pool[currentFunc]];
+    setCurrentLinePool(visibleLine_pool[currentFunc]);
     visible_func_pool[currentFunc]->setStyleSheet("background-color : #375291");
     retrieveAllFlowBlk();
+    retrieveAllLine();
 }
 

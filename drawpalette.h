@@ -9,9 +9,11 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+
 class LogicLine;
 extern void checkAllLineInPool();
 extern bool removeLine(LogicLine *l);
+extern void setCurrentLinePool(std::vector<LogicLine*> *ptr);
 
 class DrawPalette : public QLabel
 {

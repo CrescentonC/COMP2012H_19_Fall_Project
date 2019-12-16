@@ -70,6 +70,8 @@ private:
 
     std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block
 
+    std::map<std::string, std::vector<LogicLine*>*> visibleLine_pool;
+
     DrawPalette *dp;
 
     std::string getAvailName(std::string prefix);  
