@@ -10,11 +10,13 @@
 #include <QBitmap>
 #include <iostream>
 #include "Visible_Block.hpp"
+#include "drawpalette.h"
 
 extern void setMainWindowVBPool(std::map<std::string, Visible_Block*>* *ppptr); // for getting the current vb pool of main window
 
 class LogicLine : public QLabel
 {
+    friend void checkAllLineInPool();
     Q_OBJECT
 
 public:

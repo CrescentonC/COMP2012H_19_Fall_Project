@@ -8,7 +8,10 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPainter>
-#include "logicline.h"
+
+class LogicLine;
+extern void checkAllLineInPool();
+extern bool removeLine(LogicLine *l);
 
 class DrawPalette : public QLabel
 {

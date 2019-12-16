@@ -6,6 +6,7 @@
 #include "dataStorage.hpp"
 #include <typeinfo>
 #include "QDebug"
+#include "drawpalette.h"
 
 using namespace dataStorage;
 
@@ -51,6 +52,7 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
     else if(event->type() == QEvent::MouseButtonRelease)
     {
         if(isHover) isHover = false;
+        checkAllLineInPool();
     }
 
     return false;
