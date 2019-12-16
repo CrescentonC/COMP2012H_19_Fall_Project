@@ -6,6 +6,8 @@
 #include "QInputDialog"
 #include "ui_runwindow.h"
 #include "QDebug"
+#include "Interpreter.hpp"
+#include "logicline.h"
 
 using namespace WriteBackend;
 using namespace dataStorage;
@@ -69,6 +71,7 @@ std::string MainWindow::getAvailName(std::string prefix)
 
 void MainWindow::on_runButton_clicked()
 {
+    dataStorage::interpretAll();
     this->setEnabled(false);
     runWindow->show();
 }
@@ -410,6 +413,12 @@ void MainWindow::hideAllFlowBlk()
     }
 }
 
+void MainWindow::hideAllLine()
+{
+    std::map<std::string, LogicLine*>::iterator iter;
+    for (iter = dataStorage::linePool.begin(); )
+}
+
 void MainWindow::retrieveAllFlowBlk()
 {
     std::map<std::string, Visible_Block*>::iterator iter;
@@ -418,6 +427,11 @@ void MainWindow::retrieveAllFlowBlk()
     {
         iter->second->setVisible(true);
     }
+}
+
+void MainWindow::retrieveAllLine()
+{
+
 }
 
 void MainWindow::add_user_func_blk(std::string addFuncName)
@@ -491,6 +505,7 @@ void MainWindow::switch_user_func(std::string targetFuncName)
 //    qDebug() << QString::fromStdString(targetFuncName);
     visible_func_pool[currentFunc]->setStyleSheet("background-color : white");
     hideAllFlowBlk();
+
     currentFunc = targetFuncName;
     visible_block_pool = correspond_pool[func_pool[currentFunc]];
     visible_func_pool[currentFunc]->setStyleSheet("background-color : #375291");

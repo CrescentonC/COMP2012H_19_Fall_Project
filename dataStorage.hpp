@@ -22,6 +22,9 @@ extern std::map<std::string, Visible_Block*> visible_var_pool;
 
 // map from Func_Block*->VisbleBlock_Pool*      func -> its Visible_Block pool
 extern std::map<WriteBackend::Block*, std::map<std::string, Visible_Block*>*> correspond_pool;
+
+// map from Func_Block* -> linePool
+extern std::map<std::string, std::vector<LogicLine*>*> linePool;
 }
 
 #endif // DATASTORAGE_HPP

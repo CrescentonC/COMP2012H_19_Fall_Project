@@ -119,6 +119,7 @@ bool Func_Block::setNextBodyParam(unsigned int whichParam, int val, unsigned int
     // NOTE this function should be called right after the previous function to ensure the correctness
     if ((whichParam < myBody.back().bodyFuncs[whichFunc].func->numOfParams) && whichFunc < 2)
     {
+//        std::cout << ((myBody.back().bodyFuncs[whichFunc]).func->myParams[whichParam].argType) << std::endl;
         if ( typeCheck(convertToTypeinfo(myParams[val].argType), ((myBody.back().bodyFuncs[whichFunc]).func->myParams[whichParam].argType)) )
         {
             // std::cout << name << " set " << myBody.back().bodyFuncs[whichFunc].func->name << " " << whichParam << " " << &(myParams[val].realArg) << std::endl;
@@ -136,6 +137,7 @@ bool Func_Block::setNextBodyParam(unsigned int whichParam, Block** ref, unsigned
     // NOTE this function should be called right after the previous funciton called to ensure the correctness
     if ((whichParam < myBody.back().bodyFuncs[whichFunc].func->numOfParams) && whichFunc < 2)
     {
+//        std::cout << ((myBody.back().bodyFuncs[whichFunc]).func->myParams[whichParam].argType) << std::endl;
         if ( typeCheck(typeid(**ref), myBody.back().bodyFuncs[whichFunc].func->myParams[whichParam].argType) )
         {
             // std::cout << name << " set " << myBody.back().bodyFuncs[whichFunc].func->name << " " << whichParam << " " << *ref << std::endl;
@@ -143,7 +145,7 @@ bool Func_Block::setNextBodyParam(unsigned int whichParam, Block** ref, unsigned
             return true;
         }
     }
-    std::cerr << "type wrong in " << __PRETTY_FUNCTION__ << std::endl;
+    std::cerr << " type wrong when " << name << " are tring to set " << (myBody.back().bodyFuncs[whichFunc].func->name) << " using " << __PRETTY_FUNCTION__ << std::endl;
     return false;
 }
 
@@ -153,7 +155,7 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
     std::cout << name << " calling " << toRun.bodyFuncs[which].func->name << std::endl;
 
     QLabel *labelFlow = new QLabel {};
-    labelFlow->setText(QString::fromStdString(std::string(name) + std::string(" calling ") + std::string(toRun.bodyFuncs[which].func->name + "\n")));
+    labelFlow->setText(QString::fromStdString(std::string(name) + std::string(" calling ") + std::string(toRun.bodyFuncs[which].func->name)));
     (*runWindowPtr)->getMyUI()->showFlowArea_content_layout->addWidget(labelFlow);
 
     // step 1.5: dealing with stepping
@@ -186,7 +188,6 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
 
 void Func_Block::run()
 {
-    std::cout << name << " running" << std::endl;
     if (myRunFunc)
     {
         myRunFunc->operator()(this);
@@ -194,7 +195,6 @@ void Func_Block::run()
     }
     for (auto i : myBody)
     {
-        std::cout << name << " running" << std::endl;
         switch(i.statType)
         {
         case bodyType_e::FUNCCALL:

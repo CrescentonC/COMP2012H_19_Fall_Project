@@ -111,8 +111,6 @@ void LogicLine::checkConnection()
 
     for (auto i = (**ptrToVBPool).begin(); i != (**ptrToVBPool).end(); ++i)
     {
-//        std:: cout << "func Position of " << i->second->getName() << " " << i->second->geometry().x() << " " << i->second->geometry().y() << std::endl;
-//        std::cout << ((pos()+start)).x() << " " << ((pos()+start)).y() << " ||| " << ((pos()+end)).x() << " " << ((pos()+end)).y() << std::endl;
         if (i->second->geometry().contains(pos()+start))
         {
             stt = new std::map<std::string, Visible_Block*>::iterator {i};
@@ -122,8 +120,6 @@ void LogicLine::checkConnection()
             endd = new std::map<std::string, Visible_Block*>::iterator {i};
         }
     }
-
-//    std::cout << stt << " " << endd << std::endl;
 
     if (stt && endd)
     {

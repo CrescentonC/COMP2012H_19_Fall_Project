@@ -107,7 +107,7 @@ class Var_Block: public Block
             {
                 std::cout << name << ": " << *(reinterpret_cast<myTypeWithoutPtr*>(&val._double)) << std::endl;
 
-                QString txt {QString::fromStdString(name) + QString::number(*(reinterpret_cast<myTypeWithoutPtr*>(&val._double))) + QString::fromStdString("\n")};
+                QString txt {QString::fromStdString(name) + ": " + QString::number(*(reinterpret_cast<myTypeWithoutPtr*>(&val._double)))};
                 QLabel *l= new QLabel;
                 l->setText(txt);
                 (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
@@ -117,16 +117,15 @@ class Var_Block: public Block
                 std::cout << name << ": ";
 
                 QLabel *l= new QLabel;
-                l->setText(QString::fromStdString(name));
-                (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
+                QString txtShow {QString::fromStdString(name) + ": "};
 
                 for (unsigned int i {0}; i < this->_size; ++i)
                 {
                     std::cout << (reinterpret_cast<myTypeWithoutPtr*>(val._void))[i] << " ";
-                    QLabel *l= new QLabel;
-                    l->setText(QString::number((reinterpret_cast<myTypeWithoutPtr*>(val._void))[i]));
-                    (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
+                    txtShow = txtShow + QString::number((reinterpret_cast<myTypeWithoutPtr*>(val._void))[i]) + " ";
                 }
+                l->setText(txtShow);
+                (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
                 std::cout << std::endl;
             }
         }

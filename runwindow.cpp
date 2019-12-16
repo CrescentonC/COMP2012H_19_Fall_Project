@@ -22,7 +22,31 @@ RunWindow::~RunWindow()
 
 void RunWindow::resetAfterClose()
 {
-    // TODO
+    QLayoutItem *item;
+    while((item = ui->showDataArea_content_layout->takeAt(0)))
+    {
+        if (item->widget() && item->widget()->objectName() != "showData_title")
+        {
+           delete item->widget();
+        }
+        delete item;
+    }
+    while((item = ui->showFlowArea_content_layout->takeAt(0)))
+    {
+        if (item->widget() && item->widget()->objectName() != "showFlow_title")
+        {
+           delete item->widget();
+        }
+        delete item;
+    }
+    while((item = ui->showOutputArea_content_layout->takeAt(0)))
+    {
+        if (item->widget() && item->widget()->objectName() != "showOutput_title")
+        {
+           delete item->widget();
+        }
+        delete item;
+    }
 }
 
 void RunWindow::on_closeButton_clicked()
@@ -32,7 +56,6 @@ void RunWindow::on_closeButton_clicked()
 
 void RunWindow::on_stepButton_clicked()
 {
-    // TODO
     Func_Block::set_isStepping(true);
     dataStorage::func_pool["main"]->run();
 }
