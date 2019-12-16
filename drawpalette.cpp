@@ -10,8 +10,7 @@ DrawPalette::DrawPalette(QWidget *pa, QPushButton *myBtn): QLabel(pa), myToggleB
 }
 
 
-bool
-DrawPalette::eventFilter(QObject *, QEvent *event)
+bool DrawPalette::eventFilter(QObject *, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress)
     {
@@ -45,8 +44,7 @@ DrawPalette::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
-void
-DrawPalette::paintEvent(QPaintEvent *event)
+void DrawPalette::paintEvent(QPaintEvent *event)
 {
     setGeometry(parentWidget()->geometry());
 

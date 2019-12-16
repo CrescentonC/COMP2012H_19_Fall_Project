@@ -21,6 +21,9 @@ LogicLine::LogicLine(QWidget *pa, QPoint stt, QPoint end) : QLabel(pa), start {s
 
     start = stt - lefttop;
     this->end = end - lefttop;
+
+
+
     update();
 }
 
