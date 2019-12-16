@@ -81,15 +81,17 @@ public:
         setFont(QFont("Comic Sans MS", 10, QFont::Bold));
         setBlockText(name);
     }
-//    void setDetails(std::string detail){details = detail;}
     void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
     bool currentBlockVerify(void);  //verify whether correct ammount of operands
+    void setNextBlock(Block* blk){nextLogicBlock = blk;}
 
 private:
     std::string name;
     std::string details;            //context menu show details (default is block name + motherFunc name )
     std::string verifyInfo;
     Visible_Block_type block_type;
+
+    Block* nextLogicBlock{nullptr};
 
     Block* operand_source1{nullptr};
     Block* operand_source2{nullptr};
