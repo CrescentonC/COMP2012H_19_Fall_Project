@@ -25,11 +25,7 @@ public:
     ~MainWindow();
     Ui::MainWindow const *get_ui() const { return ui; }
     RunWindow* &get_runWindow() { return runWindow; }
-<<<<<<< Updated upstream
     std::map<std::string, Visible_Block*>* *getCurrentVBPool() {return &visible_block_pool;}
-=======
-    std::map<std::string, Visible_Block*>* getCurrentVBPool(){return visible_block_pool;}
->>>>>>> Stashed changes
 
 private slots:
     void on_runButton_clicked();
