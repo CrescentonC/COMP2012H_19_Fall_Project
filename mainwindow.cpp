@@ -315,6 +315,7 @@ void MainWindow::on_funcDefButton_clicked()
     correspond_pool[func_pool[thisName]] = new std::map<std::string, Visible_Block*>;
     connect(blk, &Visible_Block::user_func_clicked, this, &MainWindow::add_user_func_blk);
     connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_varDefButton_clicked()
@@ -385,6 +386,7 @@ void MainWindow::on_varDefButton_clicked()
     blk->setMinimumSize(150, 50);
     ui->showDefinedArea_content_layout->addWidget(blk);
     visible_var_pool[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 /////////////////////////////////////////////////
 
@@ -393,6 +395,10 @@ void MainWindow::on_varDefButton_clicked()
 void MainWindow::eraseBlock(std::string deleteName)
 {
     visible_block_pool->erase(deleteName);
+    visible_var_pool.erase(deleteName);
+    visible_func_pool.erase(deleteName);
+    func_pool.erase(deleteName);
+    var_pool.erase(deleteName);
 }
 
 void MainWindow::hideAllFlowBlk()
@@ -428,6 +434,7 @@ void MainWindow::add_user_func_blk(std::string addFuncName)
     }
     blk->setRealFuncName(addFuncName);
     blk->currentBlockVerify();
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
 }
 
 void MainWindow::on_whileButton_clicked()
