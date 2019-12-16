@@ -9,6 +9,8 @@
 #include <QMessageBox>
 #include "Block.hpp"
 #include <vector>
+#include <map>
+#include "BuiltInOperators.hpp"
 using namespace WriteBackend;
 
 enum Visible_Block_type{
@@ -32,6 +34,10 @@ enum Visible_Block_type{
     TAKEINDSET,
     WHILE
 };
+
+//std::map<Visible_Block_type, Func_Block> typeMapHelper = {
+//    {Visible_Block_type::AND, andBlock}
+//};
 
 // not inherit from Block
 class Visible_Block : public QLabel
@@ -82,15 +88,29 @@ public:
         setFont(QFont("Comic Sans MS", 10, QFont::Bold));
         setBlockText(name);
     }
-    void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
-    bool currentBlockVerify(void);  //verify whether correct ammount of operands
-    void setUserFuncOperandsNum(int operandsNum) {userFuncOperandsNum = operandsNum;}
+
+    std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}
+    Visible_Block_type getBlockType(){return block_type;}
+    Block* getOperandSource1(){return operand_source1;}
+    Block* getOperandSource2(){return operand_source2;}
+    Block* getDestination(){return operand_destination;}
+    int getArrInd(){return arrIndex;}
+    Block* getSubFunction1(){return subFunction1;}
+    Block* getSubFunction2(){return subFunction2;}
     int  getUserFuncOperandsNum(void){return userFuncOperandsNum;}
+    std::vector<Block*> getUserFuncOper(){return userFuncOperands;}
+
+    void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
+    void setUserFuncOperandsNum(int operandsNum) {userFuncOperandsNum = operandsNum;}
     void insertFuncParamTypeInfo(std::string typeInfo){funcParamTypeInfo.push_back(typeInfo);funcParamTypeInfo.shrink_to_fit();}
     void copyFuncParamTypeInfo(std::vector<std::string> source){funcParamTypeInfo = source;}
-    std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}
 
-    void setNextBlock(Block* blk){nextLogicBlock = blk;}
+    bool currentBlockVerify(void);  //verify whether correct ammount of operands
+
+    //=============================== running like a link list ===============================
+    void setNextBlock(std::string blkName){nextBlockName = blkName;}
+    std::string getNextBlock(){return nextBlockName;}
+    //=============================== running like a link list ===============================
 
 private:
     std::string name;
@@ -99,13 +119,14 @@ private:
     std::vector<std::string> funcParamTypeInfo;
     Visible_Block_type block_type;
 
-    Block* nextLogicBlock{nullptr};
+    std::string nextBlockName{"notExist"};
 
     //================================= predefined func operands =============================
     Block* operand_source1{nullptr};
     Block* operand_source2{nullptr};
     Block* operand_destination{nullptr};
     int arrIndex{-1};               // takeIndGet-Set
+    std::string indexFakeName;
     Block* subFunction1{nullptr};   // IF-true / while
     Block* subFunction2{nullptr};   // IF-false
     //================================= predefined func operands =============================

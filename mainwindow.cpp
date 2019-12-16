@@ -252,7 +252,7 @@ void MainWindow::on_smallerThanButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
-    std::string thisName = getAvailName("start");
+    std::string thisName = "start"; //only one start function
     Visible_Block *blk = new Visible_Block("start", START, func_pool[currentFunc], ui->canvasArea_content);
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;

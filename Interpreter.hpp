@@ -2,7 +2,9 @@
 #define INTERPRETER_HPP
 
 #include "dataStorage.hpp"
+#include "Block.hpp"
 #include "Func_Block.hpp"
+#include "Visible_Block.hpp"
 #include <map>
 
 namespace dataStorage
