@@ -55,12 +55,23 @@ protected slots:
 
 public slots:
     void setSource1();
+
+
     void setSource2();
+
+
     void setDestination();
+
+
     void setArrInd();
+
+
     void setSubFunc1();
     void setSubFunc2();
+
     void setUserFuncOperands(int pos = -1);
+    void setUserFuncOperandsT(int pos = -1);
+    void setUserFuncOperandsF(int pos = -1);
 
 signals:
     void visible_block_delete(std::string);
@@ -93,23 +104,49 @@ public:
     }
 
     std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}
+
     Visible_Block_type getBlockType(){return block_type;}
+
     Block* getOperandSource1(){return operand_source1;}
+
+
     Block* getOperandSource2(){return operand_source2;}
+
+
     Block* getDestination(){return operand_destination;}
+
+
     int getArrInd(){return arrIndex;}
+
     Block** getSubFunction1(){return &subFunction1;}
     Block** getSubFunction2(){return &subFunction2;}
+
     int  getUserFuncOperandsNum(void){return userFuncOperandsNum;}
-//    std::vector<Block*>* getUserFuncOper(){return &userFuncOperands;}
+    int  getUserFuncOperandsNumT(void){return userFuncOperandsNumT;}
+    int  getUserFuncOperandsNumF(void){return userFuncOperandsNumF;}
+
     std::string getUserFuncITHOperName(int index);
+    std::string getUserFuncITHOperNameT(int index);
+    std::string getUserFuncITHOperNameF(int index);
+
     std::string getIndexFakeName() {return indexFakeName;}
+
     std::string getRealFuncName() {return realFuncName;}
+    std::string getRealFuncNameT() {return realFuncNameT;}
+    std::string getRealFuncNameF() {return realFuncNameF;}
 
     void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
+
     void setRealFuncName(std::string realName) {realFuncName = realName;}
+    void setRealFuncNameT(std::string realName) {realFuncNameT = realName;}
+    void setRealFuncNameF(std::string realName) {realFuncNameF = realName;}
+
     void setUserFuncOperandsNum(int operandsNum) {userFuncOperandsNum = operandsNum;}
+    void setUserFuncOperandsNumT(int operandsNum) {userFuncOperandsNumT = operandsNum;}
+    void setUserFuncOperandsNumF(int operandsNum) {userFuncOperandsNumF = operandsNum;}
+
     void insertFuncParamTypeInfo(std::string typeInfo){funcParamTypeInfo.push_back(typeInfo);funcParamTypeInfo.shrink_to_fit();}
+
     void copyFuncParamTypeInfo(std::vector<std::string> source){funcParamTypeInfo = source;}
 
     bool currentBlockVerify(void);  //verify whether correct ammount of operands
@@ -119,11 +156,14 @@ public:
     std::string getNextBlock(){return nextBlockName;}
     //=============================== running like a link list ===============================
     std::string const &getName() const {return name;}
+
+
+
 private:
     std::string name;
     std::string details;            //context menu show details (default is block name + motherFunc name )
     std::string verifyInfo;
-    std::vector<std::string> funcParamTypeInfo;
+    std::vector<std::string> funcParamTypeInfo; //for user defined func
     Visible_Block_type block_type;
 
     std::string nextBlockName{"notExist"};
@@ -143,6 +183,16 @@ private:
     std::vector<Block*> userFuncOperands;
     std::string realFuncName;
     //================================= User-defined func operands ===========================
+
+    //======================= depth operands for "if"/"while" second layer ===================
+    int userFuncOperandsNumT{0};
+    std::vector<Block*> userFuncOperandsT;
+    std::string realFuncNameT;
+
+    int userFuncOperandsNumF{0};
+    std::vector<Block*> userFuncOperandsF;
+    std::string realFuncNameF;
+    //======================= depth operands for "if"/"while" second layer ===================
 
     Block* motherFunc{nullptr};    //under which function (eg main) also known as motherVar
     QPoint block_position{0,0};    //for easier re-draw (not use)
