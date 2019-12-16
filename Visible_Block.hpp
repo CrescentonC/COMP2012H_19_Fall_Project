@@ -111,7 +111,7 @@ public:
     void setNextBlock(std::string blkName){nextBlockName = blkName;}
     std::string getNextBlock(){return nextBlockName;}
     //=============================== running like a link list ===============================
-
+    std::string const &getName() const {return name;}
 private:
     std::string name;
     std::string details;            //context menu show details (default is block name + motherFunc name )

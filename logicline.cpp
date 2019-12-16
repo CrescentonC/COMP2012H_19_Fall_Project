@@ -53,7 +53,7 @@ void LogicLine::paintEvent(QPaintEvent *event)
     penr.setWidth(10);
 
     painter.setPen(peng);
-    painter.drawPoint(start);
+    painter.drawPoint(start); // this way start point green, end point red
 
     painter.setPen(penr);
     painter.drawPoint(end);
@@ -85,6 +85,7 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
         if (rect().contains(e->pos()) && e->button() == Qt::RightButton)
         {
             this->deleteLater();
+            checkConnection();
         }
     }
     else if (event->type() == QEvent::MouseMove && isHover)
@@ -99,6 +100,7 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
     else if (event->type() == QEvent::MouseButtonRelease && isHover)
     {
         isHover = false;
+        checkConnection();
     }
     return false;
 }
@@ -106,20 +108,29 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
 void LogicLine::checkConnection()
 {
     std::map<std::string, Visible_Block*>::iterator *stt {nullptr}, *endd {nullptr};
+
     for (auto i = (**ptrToVBPool).begin(); i != (**ptrToVBPool).end(); ++i)
     {
-        if (i->second->rect().contains(start))
+//        std:: cout << "func Position of " << i->second->getName() << " " << i->second->geometry().x() << " " << i->second->geometry().y() << std::endl;
+//        std::cout << ((pos()+start)).x() << " " << ((pos()+start)).y() << " ||| " << ((pos()+end)).x() << " " << ((pos()+end)).y() << std::endl;
+        if (i->second->geometry().contains(pos()+start))
         {
             stt = new std::map<std::string, Visible_Block*>::iterator {i};
         }
-        else if (i->second->rect().contains(this->end))
+        else if (i->second->geometry().contains(pos()+end))
         {
             endd = new std::map<std::string, Visible_Block*>::iterator {i};
         }
     }
 
-    if (!stt && !endd)
+//    std::cout << stt << " " << endd << std::endl;
+
+    if (stt && endd)
     {
-//        (*stt)->second->setBlockText((*endd)->second->name); TODO set next
+//        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next" << std::endl;
+        (*stt)->second->setNextBlock((*endd)->second->getName());
+//        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next done" << std::endl;
     }
+    if (stt) delete stt;
+    if (endd) delete endd;
 }
