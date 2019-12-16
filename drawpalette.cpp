@@ -1,4 +1,27 @@
 #include "drawpalette.h"
+#include "logicline.h"
+
+static std::vector<LogicLine*> linePool;
+
+void checkAllLineInPool()
+{
+    for (auto i : linePool)
+    {
+        i->checkConnection();
+    }
+}
+
+bool removeLine(LogicLine *l)
+{
+    auto i {std::find(linePool.begin(), linePool.end(), l)};
+    if (i != linePool.end())
+    {
+        linePool.erase(i);
+        (*i)->deleteLater();
+        return true;
+    }
+    return false;
+}
 
 DrawPalette::DrawPalette(QWidget *pa, QPushButton *myBtn): QLabel(pa), myToggleButton {myBtn}, isPainting {false}
 {
@@ -8,7 +31,6 @@ DrawPalette::DrawPalette(QWidget *pa, QPushButton *myBtn): QLabel(pa), myToggleB
     setMouseTracking(true);
     installEventFilter(this);
 }
-
 
 bool DrawPalette::eventFilter(QObject *, QEvent *event)
 {
@@ -22,7 +44,10 @@ bool DrawPalette::eventFilter(QObject *, QEvent *event)
             if (isPainting)
             {
                 isPainting = false;
-                LogicLine *l {new LogicLine {parentWidget(), startPoint, currentPoint}};(void)l;
+
+                LogicLine *l {new LogicLine {parentWidget(), startPoint, currentPoint}};
+                linePool.push_back(l);
+
                 myToggleButton->toggle();
                 setVisible(false);
                 update();

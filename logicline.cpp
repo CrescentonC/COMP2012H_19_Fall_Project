@@ -26,7 +26,7 @@ LogicLine::LogicLine(QWidget *pa, QPoint stt, QPoint end) : QLabel(pa), start {s
     start = stt - lefttop;
     this->end = end - lefttop;
 
-    checkConnection();
+    checkAllLineInPool();
 
     update();
 }
@@ -84,8 +84,8 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
         }
         if (rect().contains(e->pos()) && e->button() == Qt::RightButton)
         {
-            this->deleteLater();
-            checkConnection();
+            removeLine(this);
+            checkAllLineInPool();
         }
     }
     else if (event->type() == QEvent::MouseMove && isHover)
@@ -100,7 +100,7 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
     else if (event->type() == QEvent::MouseButtonRelease && isHover)
     {
         isHover = false;
-        checkConnection();
+        checkAllLineInPool();
     }
     return false;
 }
