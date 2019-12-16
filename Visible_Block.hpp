@@ -52,6 +52,7 @@ public slots:
     void setArrInd();
     void setSubFunc1();
     void setSubFunc2();
+    void setUserFuncOperands(int pos = -1);
 
 signals:
     void visible_block_delete(std::string);
@@ -83,24 +84,39 @@ public:
     }
     void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
     bool currentBlockVerify(void);  //verify whether correct ammount of operands
+    void setUserFuncOperandsNum(int operandsNum) {userFuncOperandsNum = operandsNum;}
+    int  getUserFuncOperandsNum(void){return userFuncOperandsNum;}
+    void insertFuncParamTypeInfo(std::string typeInfo){funcParamTypeInfo.push_back(typeInfo);funcParamTypeInfo.shrink_to_fit();}
+    void copyFuncParamTypeInfo(std::vector<std::string> source){funcParamTypeInfo = source;}
+    std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}
+
     void setNextBlock(Block* blk){nextLogicBlock = blk;}
 
 private:
     std::string name;
     std::string details;            //context menu show details (default is block name + motherFunc name )
     std::string verifyInfo;
+    std::vector<std::string> funcParamTypeInfo;
     Visible_Block_type block_type;
 
     Block* nextLogicBlock{nullptr};
 
+    //================================= predefined func operands =============================
     Block* operand_source1{nullptr};
     Block* operand_source2{nullptr};
     Block* operand_destination{nullptr};
     int arrIndex{-1};               // takeIndGet-Set
     Block* subFunction1{nullptr};   // IF-true / while
     Block* subFunction2{nullptr};   // IF-false
+    //================================= predefined func operands =============================
+
+    //================================= User-defined func operands ===========================
+    int userFuncOperandsNum{0};
+    std::vector<Block*> userFuncOperands;
+    //================================= User-defined func operands ===========================
+
     Block* motherFunc{nullptr};    //under which function (eg main) also known as motherVar
-    QPoint block_position{0,0};    //for easier re-draw
+    QPoint block_position{0,0};    //for easier re-draw (not use)
     bool movable{true};            // those definition shouldn't move
 };
 

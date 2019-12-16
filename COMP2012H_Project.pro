@@ -19,6 +19,7 @@ SOURCES += \
     Block.cpp \
     BuiltInOperators.cpp \
     Func_Block.cpp \
+    Interpreter.cpp \
     Var_Block.cpp \
     Visible_Block.cpp \
     dataStorage.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     Block.hpp \
     BuiltInOperators.hpp \
     Func_Block.hpp \
+    Interpreter.hpp \
     VarFunManager.hpp \
     Var_Block.hpp \
     Visible_Block.hpp \
