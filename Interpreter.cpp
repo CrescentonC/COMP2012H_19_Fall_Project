@@ -28,13 +28,23 @@ void dataStorage::interpretAll()
                 nextBodyType = bodyType_e::IF;
                 processFunc->setNextBody(nextBodyType, &var_pool[processVB->getOperandSource1()->name],
                         static_cast<Func_Block*>(*processVB->getSubFunction1()), static_cast<Func_Block*>(*processVB->getSubFunction2()));
-//                processFunc->setNextBodyParam(0, &var_pool[]);
+                for(int i = 0; i < processVB->getUserFuncOperandsNumT(); i++)
+                {
+                    processFunc->setNextBodyParam(i, &var_pool[processVB->getUserFuncITHOperNameT(i)], 0);
+                }
+                for(int i = 0; i < processVB->getUserFuncOperandsNumF(); i++)
+                {
+                    processFunc->setNextBodyParam(i, &var_pool[processVB->getUserFuncITHOperNameF(i)], 1);
+                }
                 break;
             case Visible_Block_type::WHILE:
                 nextBodyType = bodyType_e::WHILE;
                 processFunc->setNextBody(nextBodyType, &var_pool[processVB->getOperandSource1()->name],
                         static_cast<Func_Block*>(*processVB->getSubFunction1()),nullptr);
-//                processFunc->setNextBodyParam(0, &var_pool[]);
+                for(int i = 0; i < processVB->getUserFuncOperandsNumT(); i++)
+                {
+                    processFunc->setNextBodyParam(i, &var_pool[processVB->getUserFuncITHOperNameT(i)]);
+                }
                 break;
             case Visible_Block_type::USER_FUNC:
                 nextBodyType = bodyType_e::FUNCCALL;

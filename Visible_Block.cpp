@@ -113,13 +113,6 @@ void Visible_Block::ShowContextMenu(const QPoint& pos)
 
     else if(block_type == Visible_Block_type::USER_FUNC && movable)
     {
-//        std::vector<std::string>::iterator paramTypeIter = funcParamTypeInfo.begin();
-//        for(int i = 0; i < userFuncOperandsNum; i++)
-//        {
-//            myMenu.addAction("Operand"+QString::number(i)+"("+QString::fromStdString(*paramTypeIter)+")",
-//                             this, SLOT(setUserFuncOperands()));
-//            paramTypeIter++;
-//        }
         myMenu.addAction("Operand Modify", this, SLOT(setUserFuncOperands()));
     }
 
@@ -184,6 +177,7 @@ void Visible_Block::setSource1()
     currentBlockVerify();
 }
 
+
 void Visible_Block::setSource2()
 {
     QString inputText = QInputDialog::getText(this, "Source2", "source2 variable name",
@@ -205,6 +199,8 @@ void Visible_Block::setSource2()
     currentBlockVerify();
 }
 
+
+
 void Visible_Block::setDestination()
 {
     QString inputText = QInputDialog::getText(this, "Destination", "destination variable name",
@@ -225,6 +221,8 @@ void Visible_Block::setDestination()
     }
     currentBlockVerify();
 }
+
+
 
 void Visible_Block::setArrInd()
 {
@@ -269,6 +267,8 @@ void Visible_Block::setArrInd()
 
     currentBlockVerify();
 }
+
+
 
 void Visible_Block::setSubFunc1()
 {
@@ -353,6 +353,88 @@ void Visible_Block::setUserFuncOperands(int pos)
     currentBlockVerify();
 }
 
+void Visible_Block::setUserFuncOperandsT(int pos)
+{
+    //=============================== get postion =======================================
+    if(pos < 0)
+    {
+        pos = QInputDialog::getInt(this, "Set OperandsT", "OperandsT position(start from 0):",0, 0);
+    }
+    //=============================== get postion =======================================
+
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+    if(userFuncOperandsT.empty())
+    {
+        for(int i = 0; i < userFuncOperandsNumT; i++)
+            userFuncOperandsT.push_back(nullptr);
+    }
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+
+    std::vector<Block*>::iterator operIter = userFuncOperandsT.begin() + pos;
+
+    QString inputText = QInputDialog::getText(this, "Set OperandsT", "Setting Operand #" + QString::number(pos),
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        // replace the origin operand with the new operand
+        std::replace(operIter, operIter+1, *operIter, var_pool[inputName]);
+    }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n" +
+                                                      "Setting Operand #" + std::to_string(pos) + " unchanged"));
+        warningBox.exec();
+    }
+    userFuncOperandsT.shrink_to_fit();
+    currentBlockVerify();
+}
+
+void Visible_Block::setUserFuncOperandsF(int pos)
+{
+    //=============================== get postion =======================================
+    if(pos < 0)
+    {
+        pos = QInputDialog::getInt(this, "Set OperandsF", "OperandsT position(start from 0):",0, 0);
+    }
+    //=============================== get postion =======================================
+
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+    if(userFuncOperandsF.empty())
+    {
+        for(int i = 0; i < userFuncOperandsNumF; i++)
+            userFuncOperandsF.push_back(nullptr);
+    }
+    //=============== fill up at first time, prevent retrieve vector null iter ==========
+
+    std::vector<Block*>::iterator operIter = userFuncOperandsF.begin() + pos;
+
+    QString inputText = QInputDialog::getText(this, "Set OperandsF", "Setting Operand #" + QString::number(pos),
+                                              QLineEdit::Normal, "VAR2333");
+    std::string inputName = inputText.toStdString();
+
+    std::map<std::string, WriteBackend::Block*>::iterator iter;
+    iter = var_pool.find(inputName);
+    if(iter != var_pool.end())
+    {
+        // replace the origin operand with the new operand
+        std::replace(operIter, operIter+1, *operIter, var_pool[inputName]);
+    }
+    else
+    {
+        QMessageBox warningBox(QMessageBox::Information, "warning",
+                               QString::fromStdString(inputName + " does not exist\n" +
+                                                      "Setting Operand #" + std::to_string(pos) + " unchanged"));
+        warningBox.exec();
+    }
+    userFuncOperandsF.shrink_to_fit();
+    currentBlockVerify();
+}
+
 void Visible_Block::editFunc()
 {
     emit user_func_edit(name);
@@ -413,6 +495,28 @@ bool Visible_Block::currentBlockVerify()
             if(subFunction1 == nullptr) info_wrong += "\n lack subFunction 1";
             if(subFunction2 == nullptr) info_wrong += "\n lack subFunction 2";
         }
+
+        std::vector<Block*>::iterator operIter = userFuncOperandsT.begin();
+        for(int i=0; operIter != userFuncOperandsT.end(); ++operIter)
+        {
+            if(*operIter == nullptr)
+            {
+                info_wrong += "\n lack "+std::to_string(i)+"-th operand in subfunction True";
+                status = false;
+            }
+            i++;
+        }
+
+        std::vector<Block*>::iterator operIter2 = userFuncOperandsF.begin();
+        for(int i=0; operIter2 != userFuncOperandsF.end(); ++operIter2)
+        {
+            if(*operIter2 == nullptr)
+            {
+                info_wrong += "\n lack "+std::to_string(i)+"-th operand in subfunction False";
+                status = false;
+            }
+            i++;
+        }
     }
 
     else if(block_type == Visible_Block_type::WHILE)
@@ -422,6 +526,17 @@ bool Visible_Block::currentBlockVerify()
             status = false;
             if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
             if(subFunction1 == nullptr) info_wrong += "\n lack subFunction 1";
+        }
+
+        std::vector<Block*>::iterator operIter = userFuncOperandsT.begin();
+        for(int i=0; operIter != userFuncOperandsT.end(); ++operIter)
+        {
+            if(*operIter == nullptr)
+            {
+                info_wrong += "\n lack "+std::to_string(i)+"-th operand in subfunction";
+                status = false;
+            }
+            i++;
         }
     }
 
@@ -438,6 +553,7 @@ bool Visible_Block::currentBlockVerify()
             operIter++;
         }
     }
+
     else if(block_type == Visible_Block_type::PRINT)
     {
         if(operand_source1 == nullptr) status = false;
@@ -473,4 +589,14 @@ std::string Visible_Block::getAvailNameFake()
 std::string Visible_Block::getUserFuncITHOperName(int index)
 {
     return userFuncOperands.at(index)->name;
+}
+
+std::string Visible_Block::getUserFuncITHOperNameT(int index)
+{
+    return userFuncOperandsT.at(index)->name;
+}
+
+std::string Visible_Block::getUserFuncITHOperNameF(int index)
+{
+    return userFuncOperandsF.at(index)->name;
 }

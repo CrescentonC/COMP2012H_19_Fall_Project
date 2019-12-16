@@ -152,17 +152,7 @@ void MainWindow::on_equalButton_clicked()
     blk->currentBlockVerify();
 }
 
-void MainWindow::on_ifButton_clicked()
-{
-    std::string thisName = getAvailName("IF");
-    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
-    blk->setMinimumSize(150, 80);
-    (*visible_block_pool)[thisName] = blk;
-    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
-    blk->setSource1();
-    blk->setSubFunc1();
-    blk->setSubFunc2();
-}
+
 
 void MainWindow::on_minusButton_clicked()
 {
@@ -287,17 +277,6 @@ void MainWindow::on_takeIndGetButton_clicked()
     blk->currentBlockVerify();
 }
 
-void MainWindow::on_whileButton_clicked()
-{
-    std::string thisName = getAvailName("while");
-    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::WHILE, func_pool[currentFunc], ui->canvasArea_content);
-    blk->setMinimumSize(150, 80);
-    (*visible_block_pool)[thisName] = blk;
-    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
-    blk->setSource1();
-    blk->setSubFunc1();
-    blk->currentBlockVerify();
-}
 
 
 /////////////////////////////////////////////////
@@ -448,6 +427,55 @@ void MainWindow::add_user_func_blk(std::string addFuncName)
         blk->setUserFuncOperands(i);
     }
     blk->setRealFuncName(addFuncName);
+    blk->currentBlockVerify();
+}
+
+void MainWindow::on_whileButton_clicked()
+{
+    std::string thisName = getAvailName("while");
+    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::WHILE, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
+    (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+
+    blk->setSubFunc1();
+    blk->setUserFuncOperandsNumT(visible_func_pool[(*blk->getSubFunction1())->name]->getUserFuncOperandsNum());
+    for(int i = 0; i < blk->getUserFuncOperandsNumT(); i++)
+    {
+        blk->setUserFuncOperandsT(i);
+    }
+    blk->setRealFuncNameT((*blk->getSubFunction1())->name);
+    qDebug() << "here ok" + QString::number(blk->getUserFuncOperandsNumT());
+
+    blk->currentBlockVerify();
+}
+
+void MainWindow::on_ifButton_clicked()
+{
+    std::string thisName = getAvailName("IF");
+    Visible_Block *blk = new Visible_Block(thisName, Visible_Block_type::IF, func_pool[currentFunc], ui->canvasArea_content);
+    blk->setMinimumSize(150, 80);
+    (*visible_block_pool)[thisName] = blk;
+    connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+
+    blk->setSubFunc1();
+    blk->setUserFuncOperandsNumT(visible_func_pool[(*blk->getSubFunction1())->name]->getUserFuncOperandsNum());
+    for(int i = 0; i < blk->getUserFuncOperandsNumT(); i++)
+    {
+        blk->setUserFuncOperandsT(i);
+    }
+    blk->setRealFuncNameT((*blk->getSubFunction1())->name);
+
+    blk->setSubFunc2();
+    blk->setUserFuncOperandsNumF(visible_func_pool[(*blk->getSubFunction2())->name]->getUserFuncOperandsNum());
+    for(int i = 0; i < blk->getUserFuncOperandsNumF(); i++)
+    {
+        blk->setUserFuncOperandsF(i);
+    }
+    blk->setRealFuncNameF((*blk->getSubFunction2())->name);
+
     blk->currentBlockVerify();
 }
 
