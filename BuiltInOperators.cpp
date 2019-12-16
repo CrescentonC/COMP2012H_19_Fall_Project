@@ -540,6 +540,17 @@ void builtInOperatorsInit()
 
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 0);
     assignmentBlock.setParamType(varType_e::NONARRTYPE, 1);
+
+    andBlock.setParamType(varType_e::BOOL, 0);
+    andBlock.setParamType(varType_e::BOOL, 1);
+    andBlock.setParamType(varType_e::BOOL, 2);
+
+    orBlock.setParamType(varType_e::BOOL, 0);
+    orBlock.setParamType(varType_e::BOOL, 1);
+    orBlock.setParamType(varType_e::BOOL, 2);
+
+    notBlock.setParamType(varType_e::BOOL, 0);
+    notBlock.setParamType(varType_e::BOOL, 1);
 }
 
 } // namespace WriteBackend
