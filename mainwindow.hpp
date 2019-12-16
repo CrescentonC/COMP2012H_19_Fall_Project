@@ -25,6 +25,7 @@ public:
     ~MainWindow();
     Ui::MainWindow const *get_ui() const { return ui; }
     RunWindow* &get_runWindow() { return runWindow; }
+    std::map<std::string, Visible_Block*>* *getCurrentVBPool() {return &visible_block_pool;}
 
 private slots:
     void on_runButton_clicked();

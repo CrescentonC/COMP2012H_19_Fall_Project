@@ -1,5 +1,9 @@
 #include "logicline.h"
 
+static std::map<std::string, Visible_Block*>* *ptrToVBPool {nullptr};
+
+void setMainWindowVBPool(std::map<std::string, Visible_Block*>* *ppptr) { ptrToVBPool = ppptr; }
+
 LogicLine::LogicLine(QWidget *pa, QPoint stt, QPoint end) : QLabel(pa), start {stt}, end {end}
 {
     setStyleSheet("border : none");
@@ -22,7 +26,7 @@ LogicLine::LogicLine(QWidget *pa, QPoint stt, QPoint end) : QLabel(pa), start {s
     start = stt - lefttop;
     this->end = end - lefttop;
 
-
+    checkConnection();
 
     update();
 }
@@ -35,18 +39,30 @@ void LogicLine::paintEvent(QPaintEvent *event)
     image.fill(Qt::transparent);
 
     QPainter painter(&image);
+
     QColor color = Qt::green;
     color.setAlpha(150);
-    QPen pen(color);
 
-    pen.setWidth(10);
-    painter.setPen(pen);
+    QColor cl2 {Qt::red};
+    cl2.setAlpha(150);
+
+    QPen peng(color);
+    QPen penr(cl2);
+
+    peng.setWidth(10);
+    penr.setWidth(10);
+
+    painter.setPen(peng);
     painter.drawPoint(start);
+
+    painter.setPen(penr);
     painter.drawPoint(end);
 
+    painter.setPen(peng);
     QLineF line(start, end);
-    pen.setWidth(3);
-    painter.setPen(pen);
+
+    peng.setWidth(3);
+    painter.setPen(peng);
     painter.drawLine(line);
 
     setPixmap(image);
@@ -85,4 +101,25 @@ bool LogicLine::eventFilter(QObject *, QEvent *event)
         isHover = false;
     }
     return false;
+}
+
+void LogicLine::checkConnection()
+{
+    std::map<std::string, Visible_Block*>::iterator *stt {nullptr}, *endd {nullptr};
+    for (auto i = (**ptrToVBPool).begin(); i != (**ptrToVBPool).end(); ++i)
+    {
+        if (i->second->rect().contains(start))
+        {
+            stt = new std::map<std::string, Visible_Block*>::iterator {i};
+        }
+        else if (i->second->rect().contains(this->end))
+        {
+            endd = new std::map<std::string, Visible_Block*>::iterator {i};
+        }
+    }
+
+    if (!stt && !endd)
+    {
+//        (*stt)->second->setBlockText((*endd)->second->name); TODO set next
+    }
 }

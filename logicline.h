@@ -11,6 +11,8 @@
 #include <iostream>
 #include "Visible_Block.hpp"
 
+extern void setMainWindowVBPool(std::map<std::string, Visible_Block*>* *ppptr); // for getting the current vb pool of main window
+
 class LogicLine : public QLabel
 {
     Q_OBJECT
@@ -38,6 +40,8 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
     bool eventFilter(QObject*, QEvent *e) override;
+
+    void checkConnection();
 };
 
 #endif // LOGICLINE_H
