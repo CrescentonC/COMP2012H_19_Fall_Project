@@ -36,6 +36,8 @@ protected:
     Visible_Block *next;
 
     void paintEvent(QPaintEvent *event) override;
+
+    bool eventFilter(QObject*, QEvent *e) override;
 };
 
 #endif // LOGICLINE_H

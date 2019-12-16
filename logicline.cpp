@@ -49,3 +49,37 @@ void LogicLine::paintEvent(QPaintEvent *event)
     setPixmap(image);
     setMask(image.mask());
 }
+
+bool LogicLine::eventFilter(QObject *, QEvent *event)
+{
+    static QPoint lastPoint;
+    static bool isHover = false;
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        if (rect().contains(e->pos())
+                && e->button() == Qt::LeftButton)
+        {
+            lastPoint = e->pos();
+            isHover = true;
+        }
+        if (rect().contains(e->pos()) && e->button() == Qt::RightButton)
+        {
+            this->deleteLater();
+        }
+    }
+    else if (event->type() == QEvent::MouseMove && isHover)
+    {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        int dx = e->pos().x() - lastPoint.x();
+        int dy = e->pos().y() - lastPoint.y();
+        int new_x = x() + dx;
+        int new_y = y() + dy;
+        move(new_x, new_y);
+    }
+    else if (event->type() == QEvent::MouseButtonRelease && isHover)
+    {
+        isHover = false;
+    }
+    return false;
+}
