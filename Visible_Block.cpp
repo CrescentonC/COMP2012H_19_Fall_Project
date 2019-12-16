@@ -229,6 +229,13 @@ void Visible_Block::setDestination()
 void Visible_Block::setArrInd()
 {
     int inputValue = QInputDialog::getInt(this, "Array Index", "array index:",0, 0);
+
+    //====================fake a int var=============================
+    std::string fake_name = getAvailNameFake();
+    var_pool[fake_name] = new Var_Block<int>(fake_name, inputValue);
+    indexFakeName = fake_name;
+    //====================fake a int var=============================
+
     if(operand_source1 != nullptr)
     {
         if(typeid(*operand_source1) == typeid(Var_Block<bool*>))
@@ -370,9 +377,9 @@ bool Visible_Block::currentBlockVerify()
                 operand_source2 == nullptr ||
                 operand_destination == nullptr)
             status = false;
-        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
-        if(operand_source2 == nullptr) info_wrong += "\nlack Operand 2";
-        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
+        if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
+        if(operand_source2 == nullptr) info_wrong += "\n lack Operand 2";
+        if(operand_destination == nullptr) info_wrong += "\n lack Destination";
     }
 
     else if(block_type == Visible_Block_type::ASSIGNMENT ||
@@ -381,8 +388,8 @@ bool Visible_Block::currentBlockVerify()
         if(operand_source1 == nullptr ||
            operand_destination == nullptr)
         status = false;
-        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
-        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
+        if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
+        if(operand_destination == nullptr) info_wrong += "\n lack Destination";
     }
 
     else if(block_type == Visible_Block_type::TAKEINDGET ||
@@ -392,24 +399,29 @@ bool Visible_Block::currentBlockVerify()
            arrIndex == -1 ||
            operand_destination == nullptr)
         status = false;
-        if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
-        if(operand_destination == nullptr) info_wrong += "\nlack Destination";
+        if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
+        if(operand_destination == nullptr) info_wrong += "\n lack Destination";
         if(arrIndex == -1) info_wrong += "\n lack arrIndex";
     }
 
-    else if(block_type == Visible_Block_type::IF||
-            block_type == Visible_Block_type::WHILE)
+    else if(block_type == Visible_Block_type::IF)
+    {
+        if(operand_source1 == nullptr || subFunction1 == nullptr || subFunction2 == nullptr)
+        {
+            status = false;
+            if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
+            if(subFunction1 == nullptr) info_wrong += "\n lack subFunction 1";
+            if(subFunction2 == nullptr) info_wrong += "\n lack subFunction 2";
+        }
+    }
+
+    else if(block_type == Visible_Block_type::WHILE)
     {
         if(operand_source1 == nullptr || subFunction1 == nullptr)
         {
             status = false;
-            if(operand_source1 == nullptr) info_wrong += "\nlack Operand 1";
-            if(subFunction1 == nullptr) info_wrong += "\nlack subFunction 1";
-        }
-        if(block_type == Visible_Block_type::IF && subFunction2 == nullptr)
-        {
-            status = false;
-            if(subFunction2 == nullptr) info_wrong += "\nlack subFunction 2";
+            if(operand_source1 == nullptr) info_wrong += "\n lack Operand 1";
+            if(subFunction1 == nullptr) info_wrong += "\n lack subFunction 1";
         }
     }
 
@@ -420,11 +432,16 @@ bool Visible_Block::currentBlockVerify()
         {
             if(*operIter == nullptr)
             {
-                info_wrong += "\nlack "+std::to_string(i)+"-th operand";
+                info_wrong += "\n lack "+std::to_string(i)+"-th operand";
                 status = false;
             }
             operIter++;
         }
+    }
+    else if(block_type == Visible_Block_type::PRINT)
+    {
+        if(operand_source1 == nullptr) status = false;
+        info_wrong += "\n lack Operand1";
     }
 
 
@@ -440,4 +457,20 @@ bool Visible_Block::currentBlockVerify()
         setStyleSheet("background-color : white");
         return true;
     }
+}
+
+std::string Visible_Block::getAvailNameFake()
+{
+    int id = 0;
+    std::string availableName;
+    do{
+        availableName = "Ind_" + std::to_string(id);
+        id++;
+    }while(var_pool.count(availableName));
+    return availableName;
+}
+
+std::string Visible_Block::getUserFuncITHOperName(int index)
+{
+    return userFuncOperands.at(index)->name;
 }

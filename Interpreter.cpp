@@ -1,4 +1,7 @@
 #include "Interpreter.hpp"
+#include <vector>
+#include "Block.hpp"
+#include "Var_Block.hpp"
 
 static Func_Block* fakeMap(Visible_Block_type type);
 
@@ -23,13 +26,23 @@ void dataStorage::interpretAll()
             {
             case Visible_Block_type::IF:
                 nextBodyType = bodyType_e::IF;
+                processFunc->setNextBody(nextBodyType, &var_pool[processVB->getOperandSource1()->name],
+                        static_cast<Func_Block*>(*processVB->getSubFunction1()), static_cast<Func_Block*>(*processVB->getSubFunction2()));
+//                processFunc->setNextBodyParam(0, &var_pool[]);
                 break;
             case Visible_Block_type::WHILE:
                 nextBodyType = bodyType_e::WHILE;
+                processFunc->setNextBody(nextBodyType, &var_pool[processVB->getOperandSource1()->name],
+                        static_cast<Func_Block*>(*processVB->getSubFunction1()),nullptr);
+//                processFunc->setNextBodyParam(0, &var_pool[]);
                 break;
             case Visible_Block_type::USER_FUNC:
                 nextBodyType = bodyType_e::FUNCCALL;
-//                processFunc->setNextBody(nextBodyType, nullptr, func_pool[processVB])
+                processFunc->setNextBody(nextBodyType, nullptr, static_cast<Func_Block*>(func_pool[processVB->getRealFuncName()]), nullptr);
+                for(int i = 0; i < processVB->getUserFuncOperandsNum(); i++)
+                {
+                    processFunc->setNextBodyParam(i, &var_pool[processVB->getUserFuncITHOperName(i)]);
+                }
                 break;
             case Visible_Block_type::BIGGERTHAN:
             case Visible_Block_type::SMALLERTHAN:
@@ -58,13 +71,13 @@ void dataStorage::interpretAll()
                 processFunc->setNextBody(nextBodyType, nullptr, fakeMap(processVB->getBlockType()),nullptr);
                 processFunc->setNextBodyParam(0, &var_pool[processVB->getDestination()->name]);
                 processFunc->setNextBodyParam(1, &var_pool[processVB->getOperandSource1()->name]);
-//                processFunc->setNextBodyParam(2, &var_pool[processVB->getArrInd()]);
+                processFunc->setNextBodyParam(2, &var_pool[processVB->getIndexFakeName()]);
                 break;
             case Visible_Block_type::TAKEINDSET:
                 nextBodyType = bodyType_e::FUNCCALL;
                 processFunc->setNextBody(nextBodyType, nullptr, fakeMap(processVB->getBlockType()), nullptr);
                 processFunc->setNextBodyParam(0, &var_pool[processVB->getDestination()->name]);
-//                processFunc->setNextBodyParam(1, &var_pool[processVB->getArrInd()]);
+                processFunc->setNextBodyParam(1, &var_pool[processVB->getIndexFakeName()]);
                 processFunc->setNextBodyParam(2, &var_pool[processVB->getOperandSource1()->name]);
                 break;
             case Visible_Block_type::PRINT:

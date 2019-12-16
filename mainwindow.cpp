@@ -235,6 +235,8 @@ void MainWindow::on_printButton_clicked()
     blk->setMinimumSize(150, 80);
     (*visible_block_pool)[thisName] = blk;
     connect(blk, &Visible_Block::visible_block_delete, this, &MainWindow::eraseBlock);
+    blk->setSource1();
+    blk->currentBlockVerify();
 }
 
 void MainWindow::on_smallerThanButton_clicked()
@@ -301,8 +303,12 @@ void MainWindow::on_whileButton_clicked()
 /////////////////////////////////////////////////
 void MainWindow::on_funcDefButton_clicked()
 {
-    QString inputText = QInputDialog::getText(this, "function definition", "function name", QLineEdit::Normal, "FUNC2333");
-    std::string thisName = inputText.toStdString();
+    std::string thisName;
+    QString inputText;
+    do{
+        inputText = QInputDialog::getText(this, "function definition", "function name", QLineEdit::Normal, "FUNC2333");
+        thisName = inputText.toStdString();
+    }while(func_pool.count(thisName));
     int paramNum = QInputDialog::getInt(this, "function definition", "parameter ammount:",0,0);
     func_pool[thisName] = new Func_Block(thisName, static_cast<unsigned int>(paramNum));
 
@@ -335,8 +341,12 @@ void MainWindow::on_funcDefButton_clicked()
 void MainWindow::on_varDefButton_clicked()
 {
     // =========================== get name and type(format:str) ==============================
-    QString inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "VAR2333");
-    std::string thisName = inputText.toStdString();
+    QString inputText;
+    std::string thisName;
+    do{
+        inputText = QInputDialog::getText(this, "variable definition", "varible name", QLineEdit::Normal, "VAR2333");
+        thisName = inputText.toStdString();
+    }while(var_pool.count(thisName));
     inputText = QInputDialog::getText(this, "variable definition", "varible type:\n(bool, int, double, bool*, int*, double*",
                                       QLineEdit::Normal, "bool");
     std::string thisType = inputText.toStdString();
@@ -437,6 +447,7 @@ void MainWindow::add_user_func_blk(std::string addFuncName)
     {
         blk->setUserFuncOperands(i);
     }
+    blk->setRealFuncName(addFuncName);
     blk->currentBlockVerify();
 }
 

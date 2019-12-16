@@ -95,12 +95,16 @@ public:
     Block* getOperandSource2(){return operand_source2;}
     Block* getDestination(){return operand_destination;}
     int getArrInd(){return arrIndex;}
-    Block* getSubFunction1(){return subFunction1;}
-    Block* getSubFunction2(){return subFunction2;}
+    Block** getSubFunction1(){return &subFunction1;}
+    Block** getSubFunction2(){return &subFunction2;}
     int  getUserFuncOperandsNum(void){return userFuncOperandsNum;}
-    std::vector<Block*> getUserFuncOper(){return userFuncOperands;}
+//    std::vector<Block*>* getUserFuncOper(){return &userFuncOperands;}
+    std::string getUserFuncITHOperName(int index);
+    std::string getIndexFakeName() {return indexFakeName;}
+    std::string getRealFuncName() {return realFuncName;}
 
     void setBlockText(std::string text) {this->setText(QString::fromStdString(text));}
+    void setRealFuncName(std::string realName) {realFuncName = realName;}
     void setUserFuncOperandsNum(int operandsNum) {userFuncOperandsNum = operandsNum;}
     void insertFuncParamTypeInfo(std::string typeInfo){funcParamTypeInfo.push_back(typeInfo);funcParamTypeInfo.shrink_to_fit();}
     void copyFuncParamTypeInfo(std::vector<std::string> source){funcParamTypeInfo = source;}
@@ -134,11 +138,14 @@ private:
     //================================= User-defined func operands ===========================
     int userFuncOperandsNum{0};
     std::vector<Block*> userFuncOperands;
+    std::string realFuncName;
     //================================= User-defined func operands ===========================
 
     Block* motherFunc{nullptr};    //under which function (eg main) also known as motherVar
     QPoint block_position{0,0};    //for easier re-draw (not use)
     bool movable{true};            // those definition shouldn't move
+    std::string getAvailNameFake();
 };
 
 #endif // VISIBLE_BLOCK_H
+
