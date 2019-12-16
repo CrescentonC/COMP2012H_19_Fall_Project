@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Block.hpp"
-#include "Var_Block.hpp"
+
 #include <QPushButton>
 #include <QObject>
+#include "runwindow.h"
 
 namespace WriteBackend
 {
@@ -18,6 +19,8 @@ enum bodyType_e
 
 extern std::type_info const &convertToTypeinfo(varType_e _t);
 extern void setRunWindowStep(QPushButton* *ptr);
+extern void setRunWindowPtr(RunWindow* *ptr);
+extern ::RunWindow* *runWindowPtr;
 
 class Func_Block;
 class BuiltInRunFunc_helper_base

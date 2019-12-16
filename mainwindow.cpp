@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->showDefinedArea_content_layout->setAlignment(Qt::AlignTop);
 
     setRunWindowStep(&(runWindow->getMyUI()->stepButton)); // for debugging window to know what is the step button
-
+    setRunWindowPtr(&runWindow);
     dp = new DrawPalette {ui->canvasArea_content, logicWire};
 }
 

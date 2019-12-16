@@ -127,9 +127,9 @@ void LogicLine::checkConnection()
 
     if (stt && endd)
     {
-//        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next" << std::endl;
+        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next" << std::endl;
         (*stt)->second->setNextBlock((*endd)->second->getName());
-//        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next done" << std::endl;
+        std::cout << (*stt)->second->getName() << " set " << (*endd)->second->getName() << " as its next done" << std::endl;
     }
     if (stt) delete stt;
     if (endd) delete endd;

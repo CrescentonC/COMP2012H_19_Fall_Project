@@ -11,6 +11,8 @@
 #include <vector>
 #include <map>
 #include "BuiltInOperators.hpp"
+#include "drawpalette.h"
+
 using namespace WriteBackend;
 
 enum Visible_Block_type{
@@ -87,6 +89,7 @@ public:
         setAlignment(Qt::AlignCenter);
         setFont(QFont("Comic Sans MS", 10, QFont::Bold));
         setBlockText(name);
+        checkAllLineInPool();
     }
 
     std::vector<std::string> getFuncParamTypeInfo(){return funcParamTypeInfo;}

@@ -163,6 +163,7 @@ void Visible_Block::deleteBlock()
     // seems strange...
     emit visible_block_delete(name);
     this->deleteLater();
+    checkAllLineInPool();
 }
 
 void Visible_Block::setSource1()

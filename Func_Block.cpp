@@ -1,11 +1,16 @@
 #include "Func_Block.hpp"
-
+#include "runwindow.h"
+#include "ui_runwindow.h"
+#include <QString>
+#include "Var_Block.hpp"
 
 namespace WriteBackend
 {
 
+::RunWindow* *runWindowPtr {nullptr};
 static ::QPushButton* *runWindowStep {nullptr};
 void setRunWindowStep(QPushButton* *ptr) {runWindowStep = ptr;}
+void setRunWindowPtr(RunWindow* *ptr) {runWindowPtr = ptr;}
 
 std::type_info const &convertToTypeinfo(varType_e _t)
 {
@@ -147,6 +152,10 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
     // step 1, set the param for the next properly, no typeCheck here but should be fine since we have already checked type previously
     std::cout << name << " calling " << toRun.bodyFuncs[which].func->name << std::endl;
 
+    QLabel *labelFlow = new QLabel {};
+    labelFlow->setText(QString::fromStdString(std::string(name) + std::string(" calling ") + std::string(toRun.bodyFuncs[which].func->name + "\n")));
+    (*runWindowPtr)->getMyUI()->showFlowArea_content_layout->addWidget(labelFlow);
+
     // step 1.5: dealing with stepping
     if (Func_Block::isStepping)
     {
@@ -177,6 +186,7 @@ void Func_Block::runFunc(FuncBody_info_t &toRun, int which)
 
 void Func_Block::run()
 {
+    std::cout << name << " running" << std::endl;
     if (myRunFunc)
     {
         myRunFunc->operator()(this);
@@ -184,6 +194,7 @@ void Func_Block::run()
     }
     for (auto i : myBody)
     {
+        std::cout << name << " running" << std::endl;
         switch(i.statType)
         {
         case bodyType_e::FUNCCALL:
