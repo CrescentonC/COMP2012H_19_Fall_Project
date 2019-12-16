@@ -110,7 +110,7 @@ class Var_Block: public Block
                 QString txt {QString::fromStdString(name) + ": " + QString::number(*(reinterpret_cast<myTypeWithoutPtr*>(&val._double)))};
                 QLabel *l= new QLabel;
                 l->setText(txt);
-                (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
+                (*runWindowPtr)->getMyUI()->showDataArea_content_layout->addWidget(l);
             }
             else if (is_arr_type)
             {
@@ -125,7 +125,7 @@ class Var_Block: public Block
                     txtShow = txtShow + QString::number((reinterpret_cast<myTypeWithoutPtr*>(val._void))[i]) + " ";
                 }
                 l->setText(txtShow);
-                (*runWindowPtr)->getMyUI()->showOutputArea_content_layout->addWidget(l);
+                (*runWindowPtr)->getMyUI()->showDataArea_content_layout->addWidget(l);
                 std::cout << std::endl;
             }
         }
