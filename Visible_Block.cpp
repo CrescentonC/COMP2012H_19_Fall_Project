@@ -10,6 +10,15 @@
 
 using namespace dataStorage;
 
+
+/**
+ * @brief Visible_Block::eventFilter
+ * @param event
+ * handle all the event of visible blk:
+ * 1.drag
+ * 2.right click show context menu
+ * 3.check line connection
+ */
 bool Visible_Block::eventFilter(QObject *, QEvent *event)
 {
     static QPoint lastPoint;
@@ -58,6 +67,14 @@ bool Visible_Block::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
+/**
+ * @brief Visible_Block::ShowContextMenu
+ * @param pos
+ *
+ * handle right click context menu
+ * such as delete and show details and setAtrributes
+ * Very Important!
+ */
 void Visible_Block::ShowContextMenu(const QPoint& pos)
 {
     QMenu myMenu("my menu", this);
@@ -121,6 +138,12 @@ void Visible_Block::ShowContextMenu(const QPoint& pos)
     myMenu.exec(mapToGlobal(pos));
 }
 
+
+/**
+ * @brief Visible_Block::showDetails
+ *
+ * update std::string details and show it in the pop up window
+ */
 void Visible_Block::showDetails()
 {
     currentBlockVerify();
