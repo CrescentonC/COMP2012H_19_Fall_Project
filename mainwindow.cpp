@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(runWindow, &RunWindow::runWindowClosed_signal, this, &MainWindow::when_runWindow_closed);
 
-    //=================== init main function =========================================
+    //=================== init "main" function =========================================
     currentFunc = "main";
     func_pool["main"] = new Func_Block("main", 0);
     Visible_Block *blk = new Visible_Block(currentFunc, USER_FUNC, func_pool[currentFunc], ui->showDefinedArea_content, false);
@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     correspond_pool[func_pool[currentFunc]] = visible_block_pool;
     connect(blk, &Visible_Block::user_func_edit, this, &MainWindow::switch_user_func);
     visible_func_pool[currentFunc]->setStyleSheet("background-color : #375291");
+    //=================== init "main" function =========================================
 
     // ================= for setting up the logic wire push button ====================
     QPushButton *logicWire = new QPushButton {ui->canvas_area};
@@ -62,7 +63,11 @@ MainWindow::~MainWindow()
     delete runWindow;
 }
 
-
+////
+/// \brief MainWindow::getAvailName
+/// \param prefix
+/// \return get a no overlapping name for each block of same type
+///
 std::string MainWindow::getAvailName(std::string prefix)
 {
     int id = 0;

@@ -5,7 +5,16 @@
 
 static Func_Block* fakeMap(Visible_Block_type type);
 
-// first main
+
+/**
+ * @brief dataStorage::interpretAll
+ * interpret all the frontend blocks back to the backend
+ * construct all the functions to prepare for runWindow
+ *
+ * loop(all functions in func_pool):
+ *      find "start" block in every function first,
+ *      follow its next block to construct the whole function
+ */
 void dataStorage::interpretAll()
 {
     std::map<std::string, WriteBackend::Block*>::iterator funcPoolIter;
@@ -101,6 +110,13 @@ void dataStorage::interpretAll()
 }
 
 
+/**
+ * @brief fakeMap
+ * @param type
+ *
+ * give a illusion of map from  Visible_Block_type to BuiltInOperators
+ * for easier call use later on
+ */
 static Func_Block* fakeMap(Visible_Block_type type)
 {
     switch (type) {
