@@ -43,7 +43,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->showDefinedArea_content_layout->setAlignment(Qt::AlignTop);
 
-    setRunWindowStep(&(runWindow->getMyUI()->stepButton));
+    setRunWindowStep(&(runWindow->getMyUI()->stepButton)); // for debugging window to know what is the step button
+
+    dp = new DrawPalette {ui->canvasArea_content, logicWire};
 }
 
 MainWindow::~MainWindow()
@@ -77,7 +79,7 @@ void MainWindow::on_clearButton_clicked()
 
 void MainWindow::_on_logicWireButton_toggled(bool checked)
 {
-    std::cout << "aha " << checked << std::endl;
+    dp->setVisible(checked);
 }
 
 void MainWindow::when_runWindow_closed()

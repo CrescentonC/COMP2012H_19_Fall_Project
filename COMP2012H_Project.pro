@@ -22,6 +22,8 @@ SOURCES += \
     Var_Block.cpp \
     Visible_Block.cpp \
     dataStorage.cpp \
+    drawpalette.cpp \
+    logicline.cpp \
     main.cpp \
     mainwindow.cpp \
     runwindow.cpp
@@ -34,6 +36,8 @@ HEADERS += \
     Var_Block.hpp \
     Visible_Block.hpp \
     dataStorage.hpp \
+    drawpalette.h \
+    logicline.h \
     mainwindow.hpp \
     runwindow.h
 

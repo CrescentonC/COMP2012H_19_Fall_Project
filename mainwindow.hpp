@@ -8,6 +8,8 @@
 #include "Func_Block.hpp"
 #include "Visible_Block.hpp"
 #include "dataStorage.hpp"
+#include "drawpalette.h"
+#include "logicline.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -57,11 +59,15 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
     RunWindow *runWindow {nullptr};
 
     std::string currentFunc {};     //name of the current function
+
     std::map<std::string, Visible_Block*> *visible_block_pool; // connect name and visible_block
 
-    std::string getAvailName(std::string prefix);
+    DrawPalette *dp;
+
+    std::string getAvailName(std::string prefix);  
 };
 #endif // MAINWINDOW_H
